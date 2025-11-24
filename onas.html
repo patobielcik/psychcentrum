@@ -1,0 +1,771 @@
+<!doctype html>
+<html lang="sk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Titulná stránka · PsychCentrum</title>
+  <meta name="description" content="PsychCentrum — bezplatné hodnotenie psychického stavu, krízová podpora a odborné poradenstvo pre jednotlivcov a organizácie." />
+  <style>
+    :root{
+      --bg:#ffffff;
+      --card-bg: #ffffff;
+      --glass: rgba(255,255,255,0.8);
+      --accent:#6fb3ff;
+      --accent-2:#10b981;
+      --text:#0b1220;
+      --muted:rgba(11,18,32,0.6);
+      --radius:16px;
+      --page-max:1200px;
+      --cta-width:320px;
+      --shadow: 0 10px 30px rgba(12,18,28,0.08);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      /* zmena písma podľa požiadavky */
+      font-family: Georgia, "Times New Roman", serif;
+      background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+      position:relative;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.35;
+      background-image:
+        linear-gradient(135deg, rgba(10,18,30,0.02) 1px, transparent 1px);
+      background-size:14px 14px;
+      mix-blend-mode:multiply;
+    }
+
+    .bg-wrap{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+    .blob{
+      position:absolute;width:540px;height:540px;border-radius:50%;filter:blur(70px);opacity:0.45;transform:translate3d(0,0,0);
+      will-change:transform,opacity;
+      mix-blend-mode:multiply;
+    }
+    .blob.a{left:-12%;top:-8%;background:radial-gradient(circle at 30% 30%,rgba(94, 169, 255, 0.95),rgba(111,179,255,0.25) 40%,transparent 60%);animation:moveA 14s ease-in-out infinite;}
+    .blob.b{right:-12%;top:6%;background:radial-gradient(circle at 60% 40%,rgba(111, 21, 111, 0.9),rgba(96, 12, 129, 0.425) 30%,transparent 60%);animation:moveB 18s ease-in-out infinite;}
+    .blob.c{left:30%;bottom:-18%;width:700px;height:700px;background:conic-gradient(from 180deg at 50% 50%,rgba(111,179,255,0.06),rgba(16,185,129,0.04));filter:blur(120px);opacity:0.18;animation:slowSpin 36s linear infinite}
+
+    @keyframes moveA{0%{transform:translateY(0) translateX(0) scale(1)}50%{transform:translateY(36px) translateX(22px) scale(1.04)}100%{transform:translateY(0) translateX(0) scale(1)}}
+    @keyframes moveB{0%{transform:translateY(0) translateX(0) scale(1)}50%{transform:translateY(-26px) translateX(-40px) scale(1.03)}100%{transform:translateY(0) translateX(0) scale(1)}}
+    @keyframes slowSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+    .sparkles{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+    .sparkle{
+      position:absolute;width:30px;height:30px;border-radius:50%;opacity:0.9;
+      background:radial-gradient(circle at 30% 30%, #ffffff, rgba(255,255,255,0.6));
+      transform:translateY(0) scale(0.8);
+      animation:rise var(--duration, 10s) linear infinite;
+      will-change:transform,opacity;
+      mix-blend-mode:screen;
+      filter:drop-shadow(0 2px 6px rgba(111,179,255,0.08));
+    }
+    @keyframes rise{
+      0%{transform:translateY(20vh) scale(0.6); opacity:0}
+      10%{opacity:0.6}
+      50%{opacity:0.9}
+      100%{transform:translateY(-40vh) scale(1.1); opacity:0}
+    }
+
+    .site{position:relative;min-height:100vh;z-index:1;display:flex;flex-direction:column;align-items:center}
+    .container{width:100%;max-width:var(--page-max);padding:48px 28px;display:flex;flex-direction:column;gap:22px;z-index:2}
+
+    header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:10px 0}
+    .brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit}
+    .brand-text h1{font-size:18px;margin:0;color:var(--text)}
+    .brand-text p{margin:0;font-size:13px;color:var(--muted)}
+
+    nav.primary{display:flex;gap:12px}
+    .nav-link{position:relative;padding:8px 12px;border-radius:10px;color:var(--muted);text-decoration:none;font-weight:600;overflow:visible}
+    .nav-link::after{
+      content:"";position:absolute;left:12px;right:12px;bottom:6px;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--accent-2));transform-origin:left center;transform:scaleX(0);transition:transform .28s cubic-bezier(.2,.9,.2,1),opacity .28s;opacity:0.9;
+    }
+    .nav-link:hover::after{transform:scaleX(1);opacity:1}
+    .nav-link:hover{color:var(--text);background:rgba(10,18,28,0.02)}
+
+    .actions{display:flex;gap:12px}
+    .btn{padding:10px 16px;border-radius:999px;text-decoration:none;font-weight:800;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;border:none}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),#73c2ff);color:#042033;box-shadow:0 10px 30px rgba(111,179,255,0.12);}
+    .btn.ghost{background:transparent;border:1px solid rgba(10,18,28,0.06);color:var(--muted)}
+
+    main{display:flex;flex-direction:column;align-items:center;gap:20px;margin-top:6px}
+    .hero{
+      width:100%;max-width:1100px;display:grid;grid-template-columns:1fr 420px;gap:28px;padding:36px;border-radius:20px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.95));
+      box-shadow:var(--shadow);border:1px solid rgba(10,18,28,0.04);position:relative;overflow:visible;
+      transition:box-shadow .25s;
+    }
+    .hero:hover{box-shadow:0 18px 60px rgba(12,18,28,0.08)}
+
+    .hero-left{padding-right:6px}
+    .kicker{display:inline-block;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg, rgba(111,179,255,0.12), rgba(16,185,129,0.06));color:var(--accent);font-weight:800;font-size:12px;letter-spacing:0.08em}
+    h1.headline{
+      margin:12px 0 8px;font-size:34px;line-height:1.06;font-weight:800;
+      background:linear-gradient(90deg,var(--accent),#79d3ff,#b892ff,var(--accent-2));
+      background-size:200% 100%;
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+      animation:headlineShift 8s linear infinite;
+      -webkit-text-fill-color:transparent;
+    }
+    @keyframes headlineShift{
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
+
+    p.lead{margin:0;color:var(--muted);font-size:15px;max-width:64ch}
+
+    .hero-right{align-self:center;perspective:1200px}
+    .card{
+      width:100%;max-width:380px;padding:22px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.98));border:1px solid rgba(10,18,28,0.06);
+      box-shadow:0 8px 28px rgba(10,18,28,0.06);transform:translateY(0) translateZ(0);transition:transform .22s cubic-bezier(.2,.9,.2,1),box-shadow .2s;
+      will-change:transform;
+      transform-style:preserve-3d;
+    }
+    .card:hover{box-shadow:0 18px 50px rgba(10,18,28,0.08)}
+    .card h3{margin:0 0 8px}
+    .stat{display:flex;align-items:center;gap:12px}
+    .stat .num{font-size:22px;font-weight:800;
+      background:linear-gradient(90deg,var(--accent),#79d3ff);-webkit-background-clip:text;background-clip:text;color:transparent;
+      -webkit-text-fill-color:transparent;
+    }
+    .stat p{margin:0;color:var(--muted);font-size:13px}
+
+    .cta-row{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
+    .cta{width:var(--cta-width);padding:14px 18px;border-radius:12px;text-align:center;font-weight:800;cursor:pointer;border:none;position:relative;overflow:hidden}
+    .cta.primary{background:linear-gradient(90deg,var(--accent),#73c2ff);color:#042033;box-shadow:0 12px 30px rgba(111,179,255,0.12);}
+    .cta.ghost{background:transparent;border:1px solid rgba(10,18,28,0.06);color:var(--muted)}
+    .cta:active{transform:translateY(1px)}
+
+    .cta{position:relative;overflow:hidden}
+    .ripple{position:absolute;border-radius:50%;transform:scale(0);opacity:0.6;pointer-events:none}
+
+    .how{display:flex;flex-direction:column;gap:14px;margin-top:10px}
+    .how-step{background:linear-gradient(180deg, rgba(250,250,250,0.9), transparent);border-radius:12px;padding:14px;border:1px solid rgba(10,18,28,0.04);opacity:0;transform:translateY(10px);transition:all .6s cubic-bezier(.2,.9,.2,1)}
+    .how-step.visible{opacity:1;transform:none}
+    .how-step h4{margin:0 0 6px;color:var(--text)}
+
+    /* inline images for psych centre (added to place image1.jpg, image2.jpg, image4.jpg neatly) */
+    .inline-images { display:flex; gap:12px; justify-content:center; margin:14px 0; flex-wrap:wrap; }
+    .inline-images img { width:160px; height:104px; object-fit:cover; border-radius:10px; border:1px solid rgba(10,18,28,0.04); box-shadow:0 6px 18px rgba(10,18,28,0.04); }
+
+    /* ABOUT section styles */
+    .about{
+      width:100%;max-width:1100px;background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.99));border-radius:16px;padding:28px;box-shadow:0 8px 28px rgba(10,18,28,0.04);border:1px solid rgba(10,18,28,0.04);display:grid;grid-template-columns:1fr 420px;gap:24px;
+    }
+    .about h2{margin:0 0 10px;font-size:22px}
+    .about p{margin:0 0 12px;color:var(--muted)}
+    /* UPDATED: make services uniform cards (grid with consistent card styles) */
+    .about .services{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:12px;
+      margin-top:8px;
+    }
+    .service-item{
+      padding:16px;
+      border-radius:10px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,250,250,0.98));
+      border:1px solid rgba(10,18,28,0.06);
+      box-shadow:0 6px 20px rgba(10,18,28,0.04);
+      min-height:84px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+    .logo-mark {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+    .about-cta{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+
+    footer.site-footer{display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center;margin-top:28px;padding:26px 0;color:var(--muted);font-size:14px}
+    footer .links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr;padding:22px}
+      .hero-right{order:-1}
+      h1.headline{font-size:24px}
+      .cta{width:100%}
+      .about{grid-template-columns:1fr; padding:20px}
+    }
+
+    a:focus,button:focus{outline:3px solid rgba(111,179,255,0.18);outline-offset:3px}
+
+    @media (prefers-reduced-motion: reduce){
+      .blob, .card, h1.headline, .nav-link::after, .sparkle { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-wrap" aria-hidden="true">
+    <div class="blob a" aria-hidden="true"></div>
+    <div class="blob b" aria-hidden="true"></div>
+    <div class="blob c" aria-hidden="true"></div>
+  </div>
+
+  <div class="sparkles" aria-hidden="true"></div>
+
+  <div class="site">
+    <div class="container">
+      <header>
+        <a class="brand" href="main.html">
+            <div class="logo-mark">
+                <img src="logo.jpg" alt="PsychCentrum logo" 
+                     style="width:56px;height:56px;border-radius:12px;object-fit:cover;display:block;">
+              </div>
+              
+          <div class="brand-text">
+            <h1>PsychCentrum</h1>
+            <p>Podpora pre jednotlivcov a organizácie</p>
+          </div>
+        </a>
+
+        <nav class="primary" aria-label="Hlavná navigácia">
+            <a class="nav-link" href="onas.html">O nás</a>
+            <a class="nav-link" href="contact.html">Kontakt</a>
+            <a class="nav-link" href="faq.html">Najčastejšie otázky</a>
+            <a class="nav-link" href="blog.html">Blog</a>
+          </nav>
+  
+          </div>
+      </header>
+
+      <main>
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-left">
+            <div class="kicker">DÔVERNÉ • ODBORNÉ • SO SRDCOM</div>
+            <h1 id="hero-title" class="headline">Psychologická podpora a podpora v krízovej situácii na dosah</h1>
+            <p class="lead">PsychCentrum poskytuje bezplatné hodnotenie psychického stavu, krízovú podporu a odborné poradenstvo pre jednotlivcov, rodiny a zamestnancov organizácií. Dávame dôraz na bezpečie, dôveru a konkrétne kroky k zlepšeniu.</p>
+
+            
+
+            <div class="cta-row">
+              <button class="cta primary" data-action="house">Pre jednotlivcov — požiadať o pomoc</button>
+              <button class="cta ghost" data-action="biz">Pre organizácie — požiadať o pomoc</button>
+            </div>
+
+            <div class="how" id="how">
+              <div class="how-step"><h4>1. Bezpečný kontakt</h4><p>Napíšte nám stručne svoju situáciu alebo vyplňte krátke hodnotenie — všetko je dôverné.</p></div>
+              <div class="how-step"><h4>2. Odborné posúdenie</h4><p>Náš tím psychológov a terapeutov pripraví odporúčania a návrh ďalších krokov.</p></div>
+              <div class="how-step"><h4>3. Podpora a pokračovanie</h4><p>Ponúkame intervencie, terapiu alebo programy pre tímy podľa potreby.</p></div>
+            </div>
+          </div>
+          <aside class="hero-right">
+            <div class="card" aria-hidden="false">
+                <h3>Neustále rastieme!</h3>
+                <p>Za dnešný deň sme privítali</p>
+              <div class="stat" style="margin-top:8px">
+                <div>
+                  <div class="num">+12</div>
+                  <p>nových klientov.</p>
+                </div>
+              </div>
+
+              <div style="margin-top:14px;border-top:1px dashed rgba(10,18,28,0.06);padding-top:12px">
+                <p style="margin:0;color:var(--muted)">Konzultácie telefonicky aj osobne.</p>
+                <div style="margin-top:12px;display:flex;gap:8px">
+                  <a class="btn ghost" href="contact.html">Napíšte nám</a>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+      </main>
+
+      <footer class="site-footer">
+        <div>© 2025 PsychCentrum. Všetky práva vyhradené. | Kontakt: <strong>+421 55 987 65 43</strong> | email: <a href="mailto:info@psychcentrum.sk">info@psychcentrum.sk</a></div>
+        <div class="links">
+          <a href="obchodne_podmienky.html">Obchodné podmienky</a>
+          <a href="privacy.html">Ochrana osobných údajov</a>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    // Respect reduced motion preference centrally
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // 1) Parallax: blobs react slightly to mousemove for depth (light)
+    (function(){
+      const wrap = document.querySelector('.bg-wrap');
+      if(!wrap || reduceMotion) return;
+      const a = document.querySelector('.blob.a');
+      const b = document.querySelector('.blob.b');
+      window.addEventListener('mousemove', (e)=>{
+        const x = (e.clientX / window.innerWidth - 0.5) * 36;
+        const y = (e.clientY / window.innerHeight - 0.5) * 36;
+        if(a) a.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+        if(b) b.style.transform = `translate3d(${x * -0.6}px, ${y * -0.6}px, 0)`;
+      });
+    })();
+
+    // Reveal on scroll for .how-step (also use for about elements if you add .how-step)
+    (function(){
+      const steps = document.querySelectorAll('.how-step');
+      if('IntersectionObserver' in window){
+        const obs = new IntersectionObserver((entries)=>{
+          entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+        },{threshold:0.18});
+        steps.forEach(s=>obs.observe(s));
+      } else { steps.forEach(s=>s.classList.add('visible')); }
+    })();
+
+    // CTA ripple + tinyConfetti (kept) + navigate
+    (function(){
+      function makeRipple(e){
+        const btn = e.currentTarget;
+        const rect = btn.getBoundingClientRect();
+        const r = Math.max(rect.width, rect.height);
+        const span = document.createElement('span');
+        span.className = 'ripple';
+        span.style.width = span.style.height = r + 'px';
+        span.style.left = (e.clientX - rect.left - r/2) + 'px';
+        span.style.top = (e.clientY - rect.top - r/2) + 'px';
+        span.style.background = 'linear-gradient(90deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7))';
+        span.style.transition = 'transform .6s cubic-bezier(.2,.9,.2,1), opacity .6s';
+        span.style.position = 'absolute';
+        span.style.borderRadius = '50%';
+        span.style.pointerEvents = 'none';
+        btn.appendChild(span);
+        requestAnimationFrame(()=>{ span.style.transform = 'scale(2.8)'; span.style.opacity = '0'; });
+        setTimeout(()=>span.remove(),650);
+      }
+
+      function tinyConfetti(x,y,container){
+        const colors = ['#6fb3ff','#10b981','#ffd166','#ff7ab6','#b892ff'];
+        for(let i=0;i<14;i++){
+          const el = document.createElement('div');
+          el.style.position='absolute'; el.style.left = x+'px'; el.style.top = y+'px'; el.style.width='8px'; el.style.height='6px'; el.style.background = colors[Math.floor(Math.random()*colors.length)]; el.style.opacity='0.95'; el.style.borderRadius='2px';
+          el.style.transform = `translate3d(0,0,0) rotate(${Math.random()*360}deg)`;
+          el.style.zIndex='9999'; el.style.pointerEvents='none';
+          container.appendChild(el);
+          const dx = (Math.random()-0.5)*220; const dy = - (Math.random()*260 + 40); const rot = (Math.random()-0.5)*720;
+          el.animate([
+            {transform:`translate3d(0,0,0) rotate(0deg)`, opacity:1},
+            {transform:`translate3d(${dx}px, ${dy}px,0) rotate(${rot}deg)`, opacity:0}
+          ],{duration:900 + Math.random()*400, easing:'cubic-bezier(.2,.8,.2,1)'});
+          setTimeout(()=>el.remove(),1400);
+        }
+      }
+
+      const ctas = document.querySelectorAll('.cta');
+      ctas.forEach(btn=>{
+        btn.addEventListener('click',(e)=>{
+          if(!reduceMotion) makeRipple(e);
+          const rect = btn.getBoundingClientRect();
+          if(!reduceMotion) tinyConfetti(rect.left + rect.width/2, rect.top + rect.height/2, document.body);
+          const action = btn.dataset.action;
+          setTimeout(()=>{
+            if(action === 'house') window.location.href = 'finance_sheet.html';
+            else if(action === 'biz') window.location.href = 'financiebiznis.html';
+            else window.location.href = 'contact.html';
+          },220);
+        });
+      });
+    })();
+
+    // Card tilt based on mouse position
+    (function(){
+      const card = document.querySelector('.card');
+      if(!card || reduceMotion) return;
+      function onMove(e){
+        const rect = card.getBoundingClientRect();
+        const cx = rect.left + rect.width/2;
+        const cy = rect.top + rect.height/2;
+        const dx = e.clientX - cx;
+        const dy = e.clientY - cy;
+        const rx = (dy / rect.height) * -8;
+        const ry = (dx / rect.width) * 8;
+        card.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateZ(8px)`;
+      }
+      function onLeave(){ card.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0)'; }
+      card.addEventListener('mousemove', onMove);
+      card.addEventListener('mouseleave', onLeave);
+    })();
+
+    // Sparkles generator
+    (function(){
+      if(reduceMotion) return;
+      const container = document.querySelector('.sparkles');
+      if(!container) return;
+      const colors = ['#9BE7FF', '#0B3D91', '#3B82F6', '#C9A9FF', '#6B46C1'];
+      const screenW = window.innerWidth;
+      const count = Math.max(10, Math.floor(screenW / 160));
+      for(let i=0;i<count;i++){
+        const el = document.createElement('div');
+        el.className = 'sparkle';
+        const left = Math.random()*110 - 5;
+        el.style.left = left + 'vw';
+        el.style.top = (80 + Math.random()*20) + 'vh';
+        el.style.background = colors[Math.floor(Math.random()*colors.length)];
+        const dur = 8 + Math.random()*18;
+        el.style.setProperty('--duration', dur + 's');
+        el.style.opacity = (0.15 + Math.random()*0.8).toString();
+        el.style.transform = `translateY(0) scale(${0.6 + Math.random()*0.9})`;
+        container.appendChild(el);
+      }
+      let resizeTimer;
+      window.addEventListener('resize', ()=>{
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(()=>{ while(container.firstChild) container.removeChild(container.firstChild); }, 300);
+      });
+    })();
+
+    // Animate stat number from 0 to 12
+    (function(){
+      const el = document.querySelector('.stat .num');
+      if(!el) return;
+      const target = 12;
+      if (reduceMotion) { el.textContent = `+${target}%`; return; }
+      let current = 0;
+      const dur = 900;
+      const start = performance.now();
+      function step(ts){
+        const progress = Math.min((ts - start) / dur, 1);
+        const eased = 1 - Math.pow(1 - progress, 2.2);
+        current = Math.floor(eased * target * 10) / 10;
+        const asStr = (Math.abs(current - Math.round(current)) < 0.05) ? String(Math.round(current)) : String(current.toFixed(1));
+        el.textContent = `+${asStr}`;
+        if(progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    })();
+
+    // reduced motion listener
+    (function(){
+      const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+      function apply(e){ if(e.matches){ document.querySelectorAll('.blob').forEach(b=>b.style.animation='none'); document.querySelectorAll('.sparkle').forEach(s=>s.style.animation='none'); } }
+      try{ mq.addEventListener && mq.addEventListener('change', apply); }catch(e){}
+    })();
+  </script>
+
+  <!-- ===========================
+       AI CHATBOT (pridané)
+       Pridal som elementy, štýly a JS pre chatbot. Nezasahoval som do existujúceho kódu.
+       =========================== -->
+
+  <!-- Chatbot CSS (vložené pred koncom body) -->
+  <style>
+  :root{
+    --chat-blue: #80dfff;
+    --chat-blue-600: #4fcff0;
+    --chat-white: #ffffff;
+  }
+  /* Floating Chat Icon */
+  #chatbot-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: var(--chat-blue);
+    color: var(--chat-white);
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(128, 223, 255, 0.35);
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s, color 0.2s;
+    z-index: 99999;
+  }
+
+  #chatbot-icon:hover {
+    background-color: var(--chat-white);
+    color: var(--chat-blue);
+    transform: scale(1.08);
+  }
+
+  /* Chatbot Container */
+  #chatbot-container {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 350px;
+    height: 450px;
+    background-color: var(--chat-white);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(128, 223, 255, 0.22);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 99999;
+  }
+
+  /* Hide Chatbot Initially */
+  .hidden {
+    display: none !important;
+  }
+
+  /* Chatbot Header */
+  #chatbot-header {
+    background-color: var(--chat-blue);
+    color: var(--chat-white);
+    padding: 15px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+  }
+
+  #close-btn {
+    background: none;
+    border: none;
+    color: var(--chat-white);
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  /* Chatbot Body */
+  #chatbot-body {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    background-color: var(--chat-white);
+  }
+
+  /* Chatbot Messages */
+  #chatbot-messages {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .message {
+    margin-bottom: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    max-width: 85%;
+    box-shadow: none;
+  }
+
+  /* User message */
+  .message.user {
+    background-color: var(--chat-blue);
+    color: var(--chat-white);
+    align-self: flex-end;
+  }
+
+  /* Bot message */
+  .message.bot {
+    background-color: var(--chat-white);
+    color: var(--chat-blue);
+    align-self: flex-start;
+    border: 1px solid rgba(128, 223, 255, 0.45);
+  }
+
+  /* Input Section */
+  #chatbot-input-container {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid rgba(128, 223, 255, 0.25);
+    background-color: var(--chat-white);
+  }
+
+  #chatbot-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid rgba(128, 223, 255, 0.5);
+    border-radius: 10px;
+    background-color: var(--chat-white);
+    color: var(--chat-blue);
+    outline: none;
+  }
+
+  #chatbot-input::placeholder {
+    color: rgba(128,223,255,0.7);
+  }
+
+  #send-btn {
+    margin-left: 10px;
+    padding: 10px 15px;
+    background-color: var(--chat-blue);
+    color: var(--chat-white);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  #send-btn:hover {
+    background-color: var(--chat-blue-600);
+  }
+
+  </style>
+
+  <!-- Chatbot HTML -->
+  <div id="chatbot-icon" title="Otvor chat">💭</div>
+
+  <div id="chatbot-container" class="hidden" role="dialog" aria-label="AI chatbot">
+    <div id="chatbot-header">
+      <div>AI Pomocník</div>
+      <button id="close-btn" aria-label="Zatvoriť">✕</button>
+    </div>
+    <div id="chatbot-body">
+      <div id="chatbot-messages" aria-live="polite" aria-atomic="false"></div>
+    </div>
+    <div id="chatbot-input-container">
+      <input id="chatbot-input" type="text" placeholder="Napíšte správu..." aria-label="Zadajte správu" />
+      <button id="send-btn" aria-label="Odoslať správu">Odoslať</button>
+    </div>
+  </div>
+
+  <!-- Chatbot JS (používa správny request body pre generateContent) -->
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const chatbotContainer = document.getElementById("chatbot-container");
+    const clostBtn = document.getElementById("close-btn");
+    const sendBtn = document.getElementById("send-btn");
+    const chatBotInput = document.getElementById("chatbot-input");
+    const chatbotMessages = document.getElementById("chatbot-messages");
+    const chatbotIcon = document.getElementById("chatbot-icon");
+  
+    chatbotIcon.addEventListener("click", () => {
+      chatbotContainer.classList.remove("hidden");
+      chatbotIcon.style.display = "none";
+      chatBotInput.focus();
+    });
+    clostBtn.addEventListener("click", () => {
+      chatbotContainer.classList.add("hidden");
+      chatbotIcon.style.display = "flex";
+    });
+  
+    sendBtn.addEventListener("click", sendMessage);
+  
+    chatBotInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendMessage();
+    });
+  });
+  
+  function sendMessage() {
+    const inputEl = document.getElementById("chatbot-input");
+    const userMessage = inputEl.value.trim();
+    if (!userMessage) return;
+    appendMessage("user", userMessage);
+    inputEl.value = ""; // clear input correctly
+    getBotResponse(userMessage);
+  }
+  
+  function appendMessage(sender, message) {
+    const messageContainer = document.getElementById("chatbot-messages");
+    const messageElement = document.createElement("div");
+    messageElement.classList.add("message", sender);
+    messageElement.textContent = message;
+    messageContainer.appendChild(messageElement);
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+  }
+  
+  async function getBotResponse(userMessage) {
+    // *** VLOŽ SEM SVOJ API KĽÚČ (len pre testovanie) ***
+    const API_KEY = "AIzaSyDd4yZKSZFpXYmuuKRx7lnopaILiwCQHV8";
+    const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+  
+    // správny request body podľa dokumentácie: pole "contents" s role + parts
+    const body = {
+      contents: [
+        {
+          role: "user",
+          parts: [
+            { text: userMessage }
+          ]
+        }
+      ]
+    };
+  
+    // show small typing placeholder
+    appendMessage("bot", "… píšem odpoveď (čakaj chvíľu) …");
+  
+    try {
+      const resp = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": API_KEY
+        },
+        body: JSON.stringify(body)
+      });
+  
+      const data = await resp.json();
+  
+      // remove placeholder typing message if present
+      const msgs = document.getElementById("chatbot-messages");
+      const lastMsg = msgs.lastElementChild;
+      if (lastMsg && lastMsg.classList.contains("bot") && lastMsg.textContent.includes("píšem odpoveď")) {
+        lastMsg.remove();
+      }
+  
+      let botText = null;
+  
+      // 1) bežný tvar: data.candidates[0].content.parts[0].text
+      try {
+        if (data && Array.isArray(data.candidates) && data.candidates.length) {
+          const cand = data.candidates[0];
+          if (cand && cand.content && Array.isArray(cand.content.parts)) {
+            botText = cand.content.parts.map(p => p.text || "").join("\n");
+          } else if (cand && cand.content && Array.isArray(cand.content)) {
+            botText = cand.content.map(c => (c.parts ? c.parts.map(p => p.text||"").join("") : (c.text||""))).join("\n");
+          }
+        }
+      } catch (e) {
+        // continue to fallbacks
+      }
+  
+      // 2) nový tvar: data.output -> output[].content[] (hľadaj textové položky)
+      if (!botText && data && Array.isArray(data.output)) {
+        for (const outItem of data.output) {
+          if (outItem && Array.isArray(outItem.content)) {
+            for (const c of outItem.content) {
+              if ((c.type === "output_text" || c.type === "text" || c.type === "assistant_message") && c.text) {
+                botText = c.text;
+                break;
+              }
+              if (c.text) { botText = c.text; break; }
+              if (c.parts && Array.isArray(c.parts)) {
+                botText = c.parts.map(p => p.text || "").join("\n");
+                if (botText) break;
+              }
+            }
+          }
+          if (botText) break;
+        }
+      }
+  
+      // 3) extra fallback
+      if (!botText && data && data.candidates && data.candidates[0] && data.candidates[0].content && Array.isArray(data.candidates[0].content.parts)) {
+        botText = data.candidates[0].content.parts.map(p => p.text || "").join("\n");
+      }
+  
+      // 4) if still nothing, show limited debug info
+      if (!botText) {
+        const pretty = JSON.stringify(data, null, 2).slice(0, 1000);
+        botText = "API odpoveď neobsahuje text (tvar odpovede sa líši). Údaje: " + pretty;
+      }
+  
+      appendMessage("bot", botText);
+    } catch (error) {
+      console.error("Chyba pri volaní Gemini API:", error);
+      // remove placeholder if present
+      const msgs = document.getElementById("chatbot-messages");
+      const lastMsg = msgs.lastElementChild;
+      if (lastMsg && lastMsg.classList.contains("bot") && lastMsg.textContent.includes("píšem odpoveď")) {
+        lastMsg.remove();
+      }
+      appendMessage("bot", "Prepáč, niečo sa pokazilo pri volaní API. Skontroluj konzolu (F12).");
+    }
+  }
+  </script>
+
+</body>
+</html>
