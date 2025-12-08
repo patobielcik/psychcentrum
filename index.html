@@ -5,321 +5,323 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Titulná stránka · PsychCentrum</title>
   <meta name="description" content="PsychCentrum — zadarmo získajte hodnotenie psychického stavu, krízovú podporu a návrhy na ďalšiu pomoc pre jednotlivcov aj organizácie." />
+  <!-- Optional web font; fallback to serif for a calm, contemplative tone -->
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;600;800&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#ffffff;
-      --card-bg: #ffffff;
-      --glass: rgba(255,255,255,0.8);
-      --accent:#6fb3ff;
-      --accent-2:#10b981;
-      --text:#0b1220;
-      --muted:rgba(11,18,32,0.6);
-      --radius:16px;
+      /* color palette inspired by the image: cool dawn, deep forest */
+      --bg:#071019;
+      --panel: rgba(255,255,255,0.04);
+      --glass: rgba(255,255,255,0.04);
+      --accent: #8ad7ff;       /* soft sky-blue */
+      --accent-2: #7ee7c8;     /* soft teal */
+      --muted: rgba(255,255,255,0.7);
+      --muted-2: rgba(255,255,255,0.5);
+      --text:#eef7fb;
+      --radius:18px;
       --page-max:1200px;
-      --cta-width:320px;
-      --shadow: 0 10px 30px rgba(12,18,28,0.08);
+      --shadow: 0 24px 80px rgba(3,6,10,0.6);
     }
 
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      /* zmena písma podľa požiadavky */
-      font-family: Georgia, "Times New Roman", serif;
-      background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden;
+      font-family: "Libre Franklin", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:var(--text);
+      background:var(--bg);
       -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      overflow-x:hidden;
       position:relative;
     }
 
-    /* subtle diagonal paper pattern (very light) */
-    body::before{
-      content:"";
-      position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.35;
-      background-image:
-        linear-gradient(135deg, rgba(10,18,30,0.02) 1px, transparent 1px);
-      background-size:14px 14px;
-      mix-blend-mode:multiply;
+    /* full-screen hero background: use the attached image (image.jpeg) */
+    .hero-bg{
+      position:fixed;inset:0;z-index:0;background-image: url('image.jpeg');
+      background-size:cover;background-position:center center;filter:contrast(1.02) saturate(1.05);
+    }
+    /* soft vignette + fog glow to match sunrise haze */
+    .hero-overlay{
+      position:fixed;inset:0;z-index:0;pointer-events:none;
+      background:
+        radial-gradient(1200px 600px at 50% 28%, rgba(255,235,220,0.06), transparent 18%),
+        linear-gradient(180deg, rgba(5,10,18,0.45), rgba(3,6,10,0.6));
+      mix-blend-mode: overlay;
     }
 
-    /* BACKDROPS: animated gradient blobs + subtle noise (light mode) */
+    /* subtle film grain */
+    body::after{
+      content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.08;
+      background-image: linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+      background-size:2px 2px;
+      mix-blend-mode:soft-light;
+    }
+
+    /* decorative colored blobs (still used by existing JS) */
     .bg-wrap{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
     .blob{
-      position:absolute;width:540px;height:540px;border-radius:50%;filter:blur(70px);opacity:0.45;transform:translate3d(0,0,0);
-      will-change:transform,opacity;
-      mix-blend-mode:multiply;
+      position:absolute;width:520px;height:520px;border-radius:50%;filter:blur(72px);opacity:0.45;transform:translate3d(0,0,0);
+      will-change:transform,opacity;mix-blend-mode:screen;
     }
-    .blob.a{left:-12%;top:-8%;background:radial-gradient(circle at 30% 30%,rgba(94, 169, 255, 0.95),rgba(111,179,255,0.25) 40%,transparent 60%);animation:moveA 14s ease-in-out infinite;}
-    .blob.b{right:-12%;top:6%;background:radial-gradient(circle at 60% 40%,rgba(111, 21, 111, 0.9),rgba(96, 12, 129, 0.425) 30%,transparent 60%);animation:moveB 18s ease-in-out infinite;}
-    .blob.c{left:30%;bottom:-18%;width:700px;height:700px;background:conic-gradient(from 180deg at 50% 50%,rgba(111,179,255,0.06),rgba(16,185,129,0.04));filter:blur(120px);opacity:0.18;animation:slowSpin 36s linear infinite}
+    .blob.a{left:-10%;top:-8%;background:radial-gradient(circle at 30% 30%, rgba(137,213,255,0.92), rgba(138,208,255,0.18) 40%, transparent 60%);animation:moveA 14s ease-in-out infinite;}
+    .blob.b{right:-10%;top:4%;background:radial-gradient(circle at 60% 40%, rgba(125,200,180,0.9), rgba(91,140,255,0.18) 30%, transparent 60%);animation:moveB 18s ease-in-out infinite;}
+    .blob.c{left:28%;bottom:-20%;width:720px;height:720px;background:conic-gradient(from 180deg at 50% 50%, rgba(111,179,255,0.06), rgba(16,185,129,0.04));filter:blur(120px);opacity:0.12;animation:slowSpin 36s linear infinite}
 
     @keyframes moveA{0%{transform:translateY(0) translateX(0) scale(1)}50%{transform:translateY(36px) translateX(22px) scale(1.04)}100%{transform:translateY(0) translateX(0) scale(1)}}
     @keyframes moveB{0%{transform:translateY(0) translateX(0) scale(1)}50%{transform:translateY(-26px) translateX(-40px) scale(1.03)}100%{transform:translateY(0) translateX(0) scale(1)}}
     @keyframes slowSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 
+    /* sparkles (small particles) */
     .sparkles{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-    .sparkle{
-      position:absolute;width:30px;height:30px;border-radius:50%;opacity:0.9;
-      background:radial-gradient(circle at 30% 30%, #ffffff, rgba(255,255,255,0.6));
-      transform:translateY(0) scale(0.8);
-      animation:rise var(--duration, 10s) linear infinite;
-      will-change:transform,opacity;
-      mix-blend-mode:screen;
-      filter:drop-shadow(0 2px 6px rgba(111,179,255,0.08));
-    }
-    @keyframes rise{
-      0%{transform:translateY(20vh) scale(0.6); opacity:0}
-      10%{opacity:0.6}
-      50%{opacity:0.9}
-      100%{transform:translateY(-40vh) scale(1.1); opacity:0}
-    }
+    .sparkle{position:absolute;width:30px;height:30px;border-radius:50%;opacity:0.9;background:radial-gradient(circle at 30% 30%, #ffffff, rgba(255,255,255,0.6));transform:translateY(0) scale(0.8);animation:rise var(--duration, 10s) linear infinite;will-change:transform,opacity;mix-blend-mode:screen;filter:drop-shadow(0 2px 8px rgba(138,208,255,0.06));}
+    @keyframes rise{0%{transform:translateY(20vh) scale(0.6); opacity:0}10%{opacity:0.6}50%{opacity:0.9}100%{transform:translateY(-40vh) scale(1.1); opacity:0}}
 
-    /* page shell */
+    /* page shell & layout */
     .site{position:relative;min-height:100vh;z-index:1;display:flex;flex-direction:column;align-items:center}
-    .container{width:100%;max-width:var(--page-max);padding:48px 28px;display:flex;flex-direction:column;gap:22px;z-index:2}
+    .container{width:100%;max-width:var(--page-max);padding:28px 28px;display:flex;flex-direction:column;gap:12px;z-index:2}
 
-    /* header */
-    header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:10px 0}
-    .brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit}
-    .brand-text h1{font-size:18px;margin:0;color:var(--text)}
-    .brand-text p{margin:0;font-size:13px;color:var(--muted)}
+    /* top navigation — subtle and minimal */
+    header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:8px 0;position:relative;z-index:3}
+    .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+    .brand-mark{width:56px;height:56px;border-radius:12px;overflow:hidden;flex:0 0 56px;box-shadow:0 6px 20px rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.04)}
+    .brand-mark img{width:100%;height:100%;object-fit:cover;display:block}
+    .brand-text h1{font-family:"Playfair Display", serif;font-weight:700;margin:0;font-size:18px;color:var(--text)}
+    .brand-text p{margin:0;font-size:12px;color:var(--muted-2)}
 
-    nav.primary{display:flex;gap:12px}
-    .nav-link{position:relative;padding:8px 12px;border-radius:10px;color:var(--muted);text-decoration:none;font-weight:600;overflow:visible}
-    .nav-link::after{
-      content:"";position:absolute;left:12px;right:12px;bottom:6px;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--accent-2));transform-origin:left center;transform:scaleX(0);transition:transform .28s cubic-bezier(.2,.9,.2,1),opacity .28s;opacity:0.9;
-    }
-    .nav-link:hover::after{transform:scaleX(1);opacity:1}
-    .nav-link:hover{color:var(--text);background:rgba(10,18,28,0.02)}
+    nav.primary{display:flex;gap:12px;align-items:center}
+    .nav-link{padding:8px 12px;border-radius:10px;color:var(--muted-2);text-decoration:none;font-weight:700}
+    .nav-link:hover{color:var(--text);background:rgba(255,255,255,0.02)}
 
     .actions{display:flex;gap:12px}
-    .btn{padding:10px 16px;border-radius:999px;text-decoration:none;font-weight:800;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;border:none}
-    .btn.primary{background:linear-gradient(90deg,var(--accent),#73c2ff);color:#042033;box-shadow:0 10px 30px rgba(111,179,255,0.12);}
-    .btn.ghost{background:transparent;border:1px solid rgba(10,18,28,0.06);color:var(--muted)}
+    .btn{padding:10px 14px;border-radius:999px;text-decoration:none;font-weight:800;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;border:none;background:transparent;color:var(--muted-2)}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#02232f;box-shadow:0 12px 36px rgba(10,18,28,0.25)}
 
-    /* HERO card: light glass style */
-    main{display:flex;flex-direction:column;align-items:center;gap:20px;margin-top:6px}
-    .hero{
-      width:100%;max-width:1100px;display:grid;grid-template-columns:1fr 420px;gap:28px;padding:36px;border-radius:20px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.95));
-      box-shadow:var(--shadow);border:1px solid rgba(10,18,28,0.04);position:relative;overflow:visible;
+    /* Hero content (centered, over the image) */
+    main{display:flex;flex-direction:column;align-items:center;gap:20px;margin-top:8px;padding-top:6vh;z-index:2;position:relative}
+    .hero-panel{
+      width:100%;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 420px;gap:28px;padding:28px;border-radius:20px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow: none;position:relative;backdrop-filter: blur(6px);
       transition:box-shadow .25s;
     }
-    .hero:hover{box-shadow:0 18px 60px rgba(12,18,28,0.08)}
 
-    .hero-left{padding-right:6px}
-    .kicker{display:inline-block;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg, rgba(111,179,255,0.12), rgba(16,185,129,0.06));color:var(--accent);font-weight:800;font-size:12px;letter-spacing:0.08em}
-    /* animated gradient text for headline */
+    /* left: title + CTA (centered visually to the meditating subject) */
+    .hero-left{padding:12px;align-self:center;color:var(--text)}
+    .kicker{display:inline-block;padding:7px 12px;border-radius:999px;background:linear-gradient(90deg, rgba(138,208,255,0.08), rgba(126,231,200,0.04));color:var(--accent);font-weight:800;font-size:12px;letter-spacing:0.08em}
     h1.headline{
-      margin:12px 0 8px;font-size:34px;line-height:1.06;font-weight:800;
-      background:linear-gradient(90deg,var(--accent),#79d3ff,#b892ff,var(--accent-2));
-      background-size:200% 100%;
-      -webkit-background-clip:text;background-clip:text;color:transparent;
-      animation:headlineShift 8s linear infinite;
-      -webkit-text-fill-color:transparent;
+      margin:14px 0 8px;font-size:36px;line-height:1.02;font-weight:800;font-family:"Playfair Display", serif;
+      color:var(--text);
+      text-shadow: 0 6px 30px rgba(0,0,0,0.45);
     }
-    @keyframes headlineShift{
-      0%{background-position:0% 50%}
-      50%{background-position:100% 50%}
-      100%{background-position:0% 50%}
-    }
+    p.lead{margin:0;color:var(--muted-2);font-size:15px;max-width:64ch}
 
-    p.lead{margin:0;color:var(--muted);font-size:15px;max-width:64ch}
-
-    /* right column: interactive card */
-    .hero-right{align-self:center;perspective:1200px}
-    .card{
-      width:100%;max-width:380px;padding:22px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.98));border:1px solid rgba(10,18,28,0.06);
-      box-shadow:0 8px 28px rgba(10,18,28,0.06);transform:translateY(0) translateZ(0);transition:transform .22s cubic-bezier(.2,.9,.2,1),box-shadow .2s;
-      will-change:transform;
-      transform-style:preserve-3d;
-    }
-    .card:hover{box-shadow:0 18px 50px rgba(10,18,28,0.08)}
-    .card h3{margin:0 0 8px}
-    .stat{display:flex;align-items:center;gap:12px}
-    .stat .num{font-size:22px;font-weight:800;
-      background:linear-gradient(90deg,var(--accent),#79d3ff);-webkit-background-clip:text;background-clip:text;color:transparent;
-      -webkit-text-fill-color:transparent;
-    }
-    .stat p{margin:0;color:var(--muted);font-size:13px}
-
-    /* gallery for images inside card */
-    .card .images{display:flex;gap:10px;justify-content:center;margin-top:12px;flex-wrap:wrap}
-    .card .images img{width:1000px;height:150px;object-fit:cover;border-radius:8px;border:1px solid rgba(10,18,28,0.04);box-shadow:0 6px 18px rgba(10,18,28,0.04)}
-
-    /* CTA cluster inside hero-left */
     .cta-row{
-  display: flex;
-  gap: 12px;
-  margin-top: 18px;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: nowrap; /* Dôležité: nedovolí zalamovanie na ďalší riadok */
-}
-.cta{
-  padding: 12px 18px;
-  border-radius: 12px;
-  text-align: center;
-  font-weight: 900;
-  cursor: pointer;
-  border: none;
-  position: relative;
-  overflow: hidden;
-
-  min-width: 0;        /* aby flexbox správne počítal šírku */
-  white-space: normal; /* text sa môže zalomiť, ak je potrebné */
-  flex: 0 0 auto;      /* pevná veľkosť podľa obsahu (nedá sa roztiahnuť automaticky) */
-}
-    .cta.primary
-    {background:linear-gradient(90deg,#54bdff,#c9f4ff);color:#ffffff;box-shadow:0 12px 30px rgba(111,179,255,0.12);}
-    .cta.ghost{background:transparent;border:1px solid rgba(10,18,28,0.06);color:var(--muted)}
+      display:flex;gap:12px;margin-top:18px;align-items:center;flex-wrap:wrap;
+    }
+    .cta{padding:12px 18px;border-radius:12px;font-weight:900;cursor:pointer;border:none;position:relative;overflow:hidden;min-width:0;white-space:normal;flex:0 0 auto}
+    .cta.primary{background:linear-gradient(90deg,var(--accent),#bfefff);color:#052a31;box-shadow:0 14px 40px rgba(138,208,255,0.12)}
+    .cta.biz{background:linear-gradient(90deg,#7ee7c8,#9fe6ff);color:#023636}
+    .cta.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted-2)}
     .cta:active{transform:translateY(1px)}
-    .cta.biz{
-  background: linear-gradient(90deg,#54bdff,#ba9fff);
-  color: #ffffff;
-  box-shadow: 0 12px 30px rgba(6, 102, 153, 0.12);
-  border: none;
-}
 
-
-    /* micro-ripple for CTA */
-    .cta{position:relative;overflow:hidden}
+    /* micro ripple */
     .ripple{position:absolute;border-radius:50%;transform:scale(0);opacity:0.6;pointer-events:none}
 
-    /* HOW section & steps */
-    .how{display:flex;flex-direction:column;gap:14px;margin-top:10px}
-    .how-step{background:linear-gradient(180deg, rgba(250,250,250,0.9), transparent);border-radius:12px;padding:14px;border:1px solid rgba(10,18,28,0.04);opacity:0;transform:translateY(10px);transition:all .6s cubic-bezier(.2,.9,.2,1)}
+    /* right column: glass card for quick stats / images */
+    .hero-right{align-self:center;perspective:1200px;display:flex;align-items:center;justify-content:center}
+    .card{
+      width:100%;max-width:420px;padding:18px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.04);box-shadow:0 12px 42px rgba(2,6,10,0.55);transition:transform .22s cubic-bezier(.2,.9,.2,1),box-shadow .2s;transform-style:preserve-3d;
+    }
+    .card h3{margin:0 0 8px;font-size:18px}
+    .stat{display:flex;align-items:center;gap:12px}
+    .stat .num{font-size:28px;font-weight:800;background:linear-gradient(90deg,var(--accent),#9fe6ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .stat p{margin:0;color:var(--muted-2);font-size:13px}
+
+    .card .images{display:flex;gap:10px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+    .card .images img{width:100%;height:120px;object-fit:cover;border-radius:8px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 6px 18px rgba(0,0,0,0.4)}
+
+    /* HOW steps (under CTAs) */
+    .how{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+    .how-step{background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,0.03);opacity:0;transform:translateY(10px);transition:all .6s cubic-bezier(.2,.9,.2,1)}
     .how-step.visible{opacity:1;transform:none}
-    .how-step h4{margin:0 0 6px;color:var(--text)}
+    .how-step h4{margin:0 0 6px;color:var(--text);font-size:15px}
+    .how-step p{margin:0;color:var(--muted-2);font-size:13px}
 
     /* footer */
-    footer.site-footer{display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center;margin-top:28px;padding:26px 0;color:var(--muted);font-size:14px}
-    footer .links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+    footer.site-footer{display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center;margin-top:28px;padding:26px 0;color:var(--muted-2);font-size:13px;z-index:2}
 
-    /* small screens */
+    /* meditative orb (center visual element) - sits visually over the chest area */
+    .orb{
+      position:fixed;left:50%;top:52%;transform:translate(-50%,-50%);z-index:2;pointer-events:none;
+      width:160px;height:160px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+      filter:drop-shadow(0 18px 60px rgba(60,160,255,0.12));
+      mix-blend-mode:screen;
+    }
+    .orb .core{
+      width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 35% 30%, #fff, rgba(130,226,255,0.95) 20%, rgba(78,199,255,0.3) 50%);box-shadow:0 6px 30px rgba(85,190,255,0.12);
+      transform:scale(1);animation:corePulse 2400ms infinite;
+    }
+    .orb::before{
+      content:"";position:absolute;inset:-56px;border-radius:50%;background:radial-gradient(circle at 35% 35%, rgba(138,208,255,0.12), transparent 35%);
+      transform:scale(1);opacity:1;animation:orbGlow 5s linear infinite;
+    }
+    @keyframes corePulse{0%{transform:scale(0.92)}50%{transform:scale(1.07)}100%{transform:scale(0.92)}}
+    @keyframes orbGlow{0%{transform:scale(1)}50%{transform:scale(1.06);opacity:0.9}100%{transform:scale(1);opacity:1}}
+
+    /* reflection hint under orb */
+    .orb-reflection{
+      position:fixed;left:50%;top:66%;transform:translate(-50%,-50%) scaleY(-1);opacity:0.25;filter:blur(12px);z-index:1;pointer-events:none;width:220px;height:40px;background:radial-gradient(closest-side, rgba(140,220,255,0.12), transparent 60%);border-radius:50% 50% 0 0/100% 100% 0 0;
+      mix-blend-mode:screen;
+    }
+
+    /* responsiveness */
     @media (max-width:980px){
-      .hero{grid-template-columns:1fr;padding:22px}
+      .hero-panel{grid-template-columns:1fr;padding:18px}
       .hero-right{order:-1}
       h1.headline{font-size:24px}
       .cta{width:100%}
+      .orb{width:120px;height:120px;top:54%}
+      .orb .core{width:36px;height:36px}
     }
 
     /* accessibility focus */
-    a:focus,button:focus{outline:3px solid rgba(111,179,255,0.18);outline-offset:3px}
+    a:focus,button:focus{outline:3px solid rgba(138,208,255,0.14);outline-offset:3px}
 
-    /* reduced motion respect: stop all fancy animation toggles when requested */
+    /* reduced motion respect: stop fancy animations */
     @media (prefers-reduced-motion: reduce){
-      .blob, .card, h1.headline, .nav-link::after, .sparkle { animation: none !important; transition: none !important; }
+      .blob, .card, h1.headline, .nav-link::after, .sparkle, .orb { animation: none !important; transition: none !important; }
     }
+
+    /* CHATBOT styles are appended later to preserve same class names as before */
   </style>
 </head>
 <body>
+  <!-- photographic background (the uploaded image "image.jpeg" is used) -->
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-overlay" aria-hidden="true"></div>
+
+  <!-- decorative blobs (kept for parallax as requested) -->
   <div class="bg-wrap" aria-hidden="true">
     <div class="blob a" aria-hidden="true"></div>
     <div class="blob b" aria-hidden="true"></div>
     <div class="blob c" aria-hidden="true"></div>
   </div>
 
-  <!-- sparkles container -->
+  <!-- sparkles container (JS will populate) -->
   <div class="sparkles" aria-hidden="true"></div>
 
-  <div class="site">
-    <div class="container">
+  <!-- central luminous orb (visual, sits over chest area of the meditating person) -->
+  <div class="orb" aria-hidden="true">
+    <div class="core" role="img" aria-label="Svetelná energia"></div>
+  </div>
+  <div class="orb-reflection" aria-hidden="true"></div>
+
+  <div class="site" aria-hidden="false">
+    <div class="container" role="banner">
       <header>
-        <a class="brand" href="index.html">
-          <div class="logo-mark" aria-hidden="true">
-            <!-- Logo image replaces the blue square. Place logo.jpg next to this HTML file. -->
-            <img src="logo.jpg" alt="PsychCentrum logo" style="width:56px;height:56px;border-radius:12px;object-fit:cover;display:block;" />
-        </div>
+        <a class="brand" href="index.html" aria-label="PsychCentrum domov">
+          <div class="brand-mark" aria-hidden="true">
+            <img src="logo.jpg" alt="PsychCentrum logo">
+          </div>
           <div class="brand-text">
             <h1>PsychCentrum</h1>
             <p>Podpora pre jednotlivcov a organizácie</p>
           </div>
         </a>
 
-        <nav class="primary" aria-label="Hlavná navigácia psychologického centra">
+        <nav class="primary" aria-label="Hlavná navigácia">
           <a class="nav-link" href="onas.html">O nás</a>
           <a class="nav-link" href="contact.html">Kontakt</a>
           <a class="nav-link" href="faq.html">Najčastejšie otázky</a>
           <a class="nav-link" href="blog.html">Blog</a>
         </nav>
 
+        <div class="actions" aria-hidden="true">
+          <a class="btn ghost" href="contact.html">Pomoc teraz</a>
+          <a class="btn primary" href="financiebiznis.html">Pre firmy</a>
         </div>
       </header>
 
-      <main>
-        <section class="hero" aria-labelledby="hero-title">
-          <div class="hero-left">
+      <main role="main" aria-label="Hlavný obsah">
+        <!-- Panel placed on top of the image but visually subordinate to the meditative subject -->
+        <section class="hero-panel" aria-labelledby="hero-title">
+          <div class="hero-left" style="padding-right:6px">
             <div class="kicker">ZADARMO • DÔVERNE • PODPORA</div>
-            <h1 id="hero-title" class="headline">Nájdite emočnú podporu a odbornú pomoc jedným klikom.</h1>
-            <p class="lead">PsychCentrum poskytuje bezplatné hodnotenie psychického stavu, krízovú podporu, poradenstvo a odporúčania na ďalšiu liečbu alebo terapiu — pre jednotlivcov aj pre pracoviská. Všetko diskrétne a s rešpektom k vašim potrebám.</p>
+            <h1 id="hero-title" class="headline">Nájdite emočnú podporu a pokoj — práve teraz.</h1>
+            <p class="lead">PsychCentrum poskytuje bezplatné hodnotenie psychického stavu, krízovú podporu, poradenstvo a návrhy na ďalšiu pomoc — diskrétne a s rešpektom.</p>
 
-            <div class="cta-row">
+            <div class="cta-row" role="group" aria-label="Hlavné akcie">
                 <button class="cta primary" data-action="house">Pre jednotlivcov — bezplatné hodnotenie</button>
                 <button class="cta biz" data-action="biz">Pre organizácie — podpora zamestnancov</button>
-                
+                <button class="cta ghost" data-action="contact">Napíšte nám</button>
             </div>
 
             <div class="how" id="how">
               <div class="how-step"><h4>1. Diskrétne spojenie</h4><p>Kontaktujte nás alebo vyplňte krátky dotazník — zachováme anonymitu a dôvernosť.</p></div>
-              <div class="how-step"><h4>2. Hodnotenie & plán</h4><p>Odborná analýza symptómov a návrh na ďalšie kroky: terapia, konzultácia alebo krízová intervencia.</p></div>
+              <div class="how-step"><h4>2. Hodnotenie a plán</h4><p>Odborná analýza symptómov a návrh na ďalšie kroky: terapia, konzultácia alebo krízová intervencia.</p></div>
               <div class="how-step"><h4>3. Podpora pri implementácii</h4><p>Pomôžeme s výberom terapeuta, s krízovým plánom alebo s postupmi pre zamestnávateľa.</p></div>
             </div>
           </div>
 
-          <aside class="hero-right">
-            <div class="card" aria-hidden="false">
+          <aside class="hero-right" aria-hidden="false">
+            <div class="card" aria-labelledby="card-title" role="region">
+              <h3 id="card-title">Rýchle výsledky</h3>
 
-              <!-- pekne umiestnené obrázky -->
+              <!-- images kept but small, suggest the site's therapy photos -->
               <div class="images" aria-hidden="true">
-                <img src="image1.jpg" alt="poradenstvo" />
-                <img src="image2.jpg" alt="terapia" />
-                <img src="image4.jpg" alt="skupinová podpora" />
+                <img src="image1.jpg" alt="Poradenská podpora" />
               </div>
 
-              <div class="stat" style="margin-top:8px">
+              <div class="stat" style="margin-top:10px">
                 <div>
                   <div class="num">+55%</div>
                   <p>Zlepšenie spokojnosti klientov po psychologickej podpore.</p>
                 </div>
               </div>
 
-              <div style="margin-top:14px;border-top:1px dashed rgba(10,18,28,0.06);padding-top:12px">
-                <p style="margin:0;color:var(--muted)">Poradenstvo online aj osobne — flexibilné termíny.</p>
+              <div style="margin-top:14px;border-top:1px dashed rgba(255,255,255,0.03);padding-top:12px">
+                <p style="margin:0;color:var(--muted-2)">Poradenstvo online aj osobne — flexibilné termíny.</p>
                 <div style="margin-top:12px;display:flex;gap:8px">
                   <a class="btn ghost" href="contact.html">Napíšte nám</a>
+                  <a class="btn primary" href="onas.html">Viac o nás</a>
                 </div>
               </div>
             </div>
           </aside>
         </section>
-
       </main>
 
-      <footer class="site-footer">
-        <div>© 2025 PsychCentrum. Všetky práva vyhradené. | Kontakt: <strong>+421 55 987 65 43</strong> | email: <a href="mailto:info@psychcentrum.sk">info@psychcentrum.sk</a></div>
+      <footer class="site-footer" role="contentinfo">
+        <div>© 2025 PsychCentrum. Všetky práva vyhradené. | Kontakt: <strong>+421 55 987 65 43</strong> | email: <a href="mailto:info@psychcentrum.sk" style="color:var(--muted-2)">info@psychcentrum.sk</a></div>
         <div class="links">
-          <a href="obchodne_podmienky.html">Obchodné podmienky</a>
-          <a href="privacy.html">Ochrana osobných údajov</a>
+          <a href="obchodne_podmienky.html">Obchodné podmienky</a> • <a href="privacy.html">Ochrana osobných údajov</a>
         </div>
       </footer>
     </div>
   </div>
 
+  <!-- ========== SCRIPTS (pôvodné funkcie upravené tak, aby pracovali s novým layoutom) ========== -->
   <script>
     // Respect reduced motion preference centrally
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // 1) Parallax: blobs react slightly to mousemove for depth (light)
+    // 1) Parallax: blobs react slightly to mousemove for depth
     (function(){
       const wrap = document.querySelector('.bg-wrap');
       if(!wrap || reduceMotion) return;
       const a = document.querySelector('.blob.a');
       const b = document.querySelector('.blob.b');
+      const c = document.querySelector('.blob.c');
       window.addEventListener('mousemove', (e)=>{
         const x = (e.clientX / window.innerWidth - 0.5) * 36;
         const y = (e.clientY / window.innerHeight - 0.5) * 36;
         if(a) a.style.transform = `translate3d(${x}px, ${y}px, 0)`;
         if(b) b.style.transform = `translate3d(${x * -0.6}px, ${y * -0.6}px, 0)`;
+        if(c) c.style.transform = `translate3d(${x * 0.3}px, ${y * 0.3}px, 0)`;
       });
     })();
 
@@ -334,12 +336,12 @@
       } else { steps.forEach(s=>s.classList.add('visible')); }
     })();
 
-    // 3) CTA ripple + tinyConfetti (kept) + navigate
+    // 3) CTA ripple + tinyConfetti + navigate
     (function(){
       function makeRipple(e){
         const btn = e.currentTarget;
         const rect = btn.getBoundingClientRect();
-        const r = Math.max(rect.width, rect.height);
+        const r = Math.max(rect.width, rect.height) * 1.2;
         const span = document.createElement('span');
         span.className = 'ripple';
         span.style.width = span.style.height = r + 'px';
@@ -352,7 +354,7 @@
         span.style.pointerEvents = 'none';
         btn.appendChild(span);
         requestAnimationFrame(()=>{ span.style.transform = 'scale(2.8)'; span.style.opacity = '0'; });
-        setTimeout(()=>span.remove(),650);
+        setTimeout(()=>span.remove(),700);
       }
 
       function tinyConfetti(x,y,container){
@@ -360,11 +362,21 @@
         const colors = ['#6fb3ff','#10b981','#ffd166','#ff7ab6','#b892ff'];
         for(let i=0;i<14;i++){
           const el = document.createElement('div');
-          el.style.position='absolute'; el.style.left = x+'px'; el.style.top = y+'px'; el.style.width='8px'; el.style.height='6px'; el.style.background = colors[Math.floor(Math.random()*colors.length)]; el.style.opacity='0.95'; el.style.borderRadius='2px';
+          el.style.position='absolute';
+          el.style.left = (x - 6) + 'px';
+          el.style.top = (y - 6) + 'px';
+          el.style.width='8px';
+          el.style.height='6px';
+          el.style.background = colors[Math.floor(Math.random()*colors.length)];
+          el.style.opacity='0.95';
+          el.style.borderRadius='2px';
           el.style.transform = `translate3d(0,0,0) rotate(${Math.random()*360}deg)`;
-          el.style.zIndex='9999'; el.style.pointerEvents='none';
+          el.style.zIndex='9999';
+          el.style.pointerEvents='none';
           container.appendChild(el);
-          const dx = (Math.random()-0.5)*220; const dy = - (Math.random()*260 + 40); const rot = (Math.random()-0.5)*720;
+          const dx = (Math.random()-0.5)*220;
+          const dy = - (Math.random()*260 + 40);
+          const rot = (Math.random()-0.5)*720;
           el.animate([
             {transform:`translate3d(0,0,0) rotate(0deg)`, opacity:1},
             {transform:`translate3d(${dx}px, ${dy}px,0) rotate(${rot}deg)`, opacity:0}
@@ -379,7 +391,6 @@
           if(!reduceMotion) makeRipple(e);
           const rect = btn.getBoundingClientRect();
           if(!reduceMotion) tinyConfetti(rect.left + rect.width/2, rect.top + rect.height/2, document.body);
-          // navigate after tiny delay for feedback
           const action = btn.dataset.action;
           setTimeout(()=>{
             if(action === 'house') window.location.href = 'finance_sheet.html';
@@ -390,7 +401,7 @@
       });
     })();
 
-    // 4) Card tilt based on mouse position
+    // 4) Card tilt based on mouse position (kept)
     (function(){
       const card = document.querySelector('.card');
       if(!card || reduceMotion) return;
@@ -400,8 +411,8 @@
         const cy = rect.top + rect.height/2;
         const dx = e.clientX - cx;
         const dy = e.clientY - cy;
-        const rx = (dy / rect.height) * -8; // rotateX
-        const ry = (dx / rect.width) * 8;  // rotateY
+        const rx = (dy / rect.height) * -6; // rotateX
+        const ry = (dx / rect.width) * 6;  // rotateY
         card.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateZ(8px)`;
       }
       function onLeave(){ card.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0)'; }
@@ -409,25 +420,24 @@
       card.addEventListener('mouseleave', onLeave);
     })();
 
-    // Sparkles generator
+    // Sparkles generator (colors updated to match image)
     (function(){
       if(reduceMotion) return;
       const container = document.querySelector('.sparkles');
       if(!container) return;
-// sparkles colors — nahraď pôvodné pole colors touto
-    const colors = ['#9BE7FF', '#0B3D91', '#3B82F6', '#C9A9FF', '#6B46C1'];
+      const colors = ['#9BE7FF', '#0B3D91', '#3B82F6', '#C9A9FF', '#6B46C1'];
       const screenW = window.innerWidth;
-      const count = Math.max(10, Math.floor(screenW / 160));
+      const count = Math.max(10, Math.floor(screenW / 140));
       for(let i=0;i<count;i++){
         const el = document.createElement('div');
         el.className = 'sparkle';
         const left = Math.random()*110 - 5;
         el.style.left = left + 'vw';
-        el.style.top = (80 + Math.random()*20) + 'vh';
+        el.style.top = (75 + Math.random()*22) + 'vh';
         el.style.background = colors[Math.floor(Math.random()*colors.length)];
-        const dur = 8 + Math.random()*18;
+        const dur = 7 + Math.random()*18;
         el.style.setProperty('--duration', dur + 's');
-        el.style.opacity = (0.15 + Math.random()*0.8).toString();
+        el.style.opacity = (0.12 + Math.random()*0.8).toString();
         el.style.transform = `translateY(0) scale(${0.6 + Math.random()*0.9})`;
         container.appendChild(el);
       }
@@ -438,7 +448,7 @@
       });
     })();
 
-    // 6) Animate stat number from 0 to 85
+    // 6) Animate stat number from 0 to target
     (function(){
       const el = document.querySelector('.stat .num');
       if(!el) return;
@@ -451,7 +461,6 @@
         const progress = Math.min((ts - start) / dur, 1);
         const eased = 1 - Math.pow(1 - progress, 2.2); // easeOut-ish
         current = Math.floor(eased * target * 10) / 10; // one decimal possible
-        // format nicely (if .0, remove)
         const asStr = (Math.abs(current - Math.round(current)) < 0.05) ? String(Math.round(current)) : String(current.toFixed(1));
         el.textContent = `+${asStr}%`;
         if(progress < 1) requestAnimationFrame(step);
@@ -466,166 +475,117 @@
       try{ mq.addEventListener && mq.addEventListener('change', apply); }catch(e){}
     })();
 
+    // Small enhancement: position the orb adaptively based on window size to roughly align with subject
+    (function(){
+      function placeOrb(){
+        const orb = document.querySelector('.orb');
+        if(!orb) return;
+        // center horizontally; vertically slightly lower for portrait/horizon balance
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        if(w < 980){
+          orb.style.top = '54%';
+        } else {
+          orb.style.top = '52%';
+        }
+      }
+      placeOrb();
+      window.addEventListener('resize', placeOrb);
+    })();
+
   </script>
 
   <!-- ===========================
-       CHATBOT PODPORY (pridané)
-       Pridal som elementy, štýly a JS pre chatbot. Nezasahoval som do existujúceho kódu.
+       CHATBOT PODPORY (pridané, zachované)
        =========================== -->
 
-  <!-- Chatbot CSS (vložené pred koncom body) -->
   <style>
-  :root{
-    --chat-blue: #80dfff;
-    --chat-blue-600: #4fcff0;
-    --chat-white: #ffffff;
-  }
-  /* Floating Chat Icon */
-  #chatbot-icon {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 60px;
-    height: 60px;
-    background-color: var(--chat-blue);
-    color: var(--chat-white);
-    font-size: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    box-shadow: 0 0 15px rgba(128, 223, 255, 0.35);
-    cursor: pointer;
-    transition: transform 0.2s, background-color 0.2s, color 0.2s;
-    z-index: 99999;
-  }
+    :root{
+      --chat-blue: #7ee7ff;
+      --chat-blue-600: #4fcff0;
+      --chat-white: #021718;
+    }
+    /* Floating Chat Icon */
+    #chatbot-icon {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background-color: var(--chat-blue);
+      color: #002226;
+      font-size: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      box-shadow: 0 8px 30px rgba(126,231,200,0.08);
+      cursor: pointer;
+      transition: transform 0.18s, background-color 0.18s, color 0.18s;
+      z-index: 99999;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
 
-  #chatbot-icon:hover {
-    background-color: var(--chat-white);
-    color: var(--chat-blue);
-    transform: scale(1.08);
-  }
+    #chatbot-icon:hover {
+      transform: scale(1.06);
+    }
 
-  /* Chatbot Container */
-  #chatbot-container {
-    position: fixed;
-    bottom: 80px;
-    right: 20px;
-    width: 350px;
-    height: 450px;
-    background-color: var(--chat-white);
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(128, 223, 255, 0.22);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    z-index: 99999;
-  }
+    /* Chatbot Container */
+    #chatbot-container {
+      position: fixed;
+      bottom: 92px;
+      right: 20px;
+      width: 360px;
+      height: 480px;
+      background-color: rgba(255,255,255,0.02);
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 99999;
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.03);
+    }
 
-  /* Hide Chatbot Initially */
-  .hidden {
-    display: none !important;
-  }
+    /* Hide Chatbot Initially */
+    .hidden { display: none !important; }
 
-  /* Chatbot Header */
-  #chatbot-header {
-    background-color: var(--chat-blue);
-    color: var(--chat-white);
-    padding: 15px;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 18px;
-  }
+    /* Chatbot Header */
+    #chatbot-header {
+      background: linear-gradient(90deg,#5fe7ff,#9ff1df);
+      color: #022426;
+      padding: 12px 14px;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 16px;
+      font-weight:700;
+    }
 
-  #close-btn {
-    background: none;
-    border: none;
-    color: var(--chat-white);
-    font-size: 20px;
-    cursor: pointer;
-  }
+    #close-btn { background: none; border: none; color: #022426; font-size: 18px; cursor: pointer; }
 
-  /* Chatbot Body */
-  #chatbot-body {
-    flex: 1;
-    padding: 10px;
-    overflow-y: auto;
-    background-color: var(--chat-white);
-  }
+    /* Chatbot Body */
+    #chatbot-body { flex: 1; padding: 12px; overflow-y: auto; background: rgba(2,10,12,0.2); }
 
-  /* Chatbot Messages */
-  #chatbot-messages {
-    display: flex;
-    flex-direction: column;
-  }
+    /* Chatbot Messages */
+    #chatbot-messages { display: flex; flex-direction: column; gap:8px; }
+    .message{ margin-bottom:6px; padding:10px 12px; border-radius:10px; max-width:85%; font-size:14px;}
+    .message.user{ background: linear-gradient(90deg,#7ee7c8,#9fe6ff); color:#002426; align-self:flex-end; }
+    .message.bot{ background: rgba(255,255,255,0.02); color:var(--muted-2); border:1px solid rgba(126,231,200,0.06); align-self:flex-start; }
 
-  .message {
-    margin-bottom: 15px;
-    padding: 12px;
-    border-radius: 8px;
-    max-width: 85%;
-    box-shadow: none;
-  }
-
-  /* User message */
-  .message.user {
-    background-color: var(--chat-blue);
-    color: var(--chat-white);
-    align-self: flex-end;
-  }
-
-  /* Bot message */
-  .message.bot {
-    background-color: var(--chat-white);
-    color: var(--chat-blue);
-    align-self: flex-start;
-    border: 1px solid rgba(128, 223, 255, 0.45);
-  }
-
-  /* Input Section */
-  #chatbot-input-container {
-    display: flex;
-    padding: 10px;
-    border-top: 1px solid rgba(128, 223, 255, 0.25);
-    background-color: var(--chat-white);
-  }
-
-  #chatbot-input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid rgba(128, 223, 255, 0.5);
-    border-radius: 10px;
-    background-color: var(--chat-white);
-    color: var(--chat-blue);
-    outline: none;
-  }
-
-  #chatbot-input::placeholder {
-    color: rgba(128,223,255,0.7);
-  }
-
-  #send-btn {
-    margin-left: 10px;
-    padding: 10px 15px;
-    background-color: var(--chat-blue);
-    color: var(--chat-white);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-
-  #send-btn:hover {
-    background-color: var(--chat-blue-600);
-  }
-
+    /* Input Section */
+    #chatbot-input-container{ display:flex; padding:10px; border-top:1px solid rgba(255,255,255,0.03); background: linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,0,0,0.28)); }
+    #chatbot-input{ flex:1; padding:10px; border-radius:10px; border:1px solid rgba(126,231,200,0.14); background:transparent; color:var(--muted-2); outline:none; }
+    #chatbot-input::placeholder{ color: rgba(126,231,200,0.45); }
+    #send-btn{ margin-left:8px; padding:10px 12px; background: linear-gradient(90deg,#7ee7c8,#9fe6ff); color:#002426; border-radius:8px; border:none; cursor:pointer; font-weight:700; }
+    #send-btn:hover{ filter:brightness(0.98) }
   </style>
 
   <!-- Chatbot HTML -->
-  <div id="chatbot-icon" title="Otvor podporný chat">💭</div>
+  <div id="chatbot-icon" title="Otvor podporný chat" aria-hidden="false">💭</div>
 
   <div id="chatbot-container" class="hidden" role="dialog" aria-label="Podporný chat">
     <div id="chatbot-header">
@@ -641,150 +601,148 @@
     </div>
   </div>
 
-  <!-- Chatbot JS (používa správny request body pre generateContent) -->
+  <!-- Chatbot JS: uses the same robust response parsing as before -->
   <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const chatbotContainer = document.getElementById("chatbot-container");
-    const clostBtn = document.getElementById("close-btn");
-    const sendBtn = document.getElementById("send-btn");
-    const chatBotInput = document.getElementById("chatbot-input");
-    const chatbotMessages = document.getElementById("chatbot-messages");
-    const chatbotIcon = document.getElementById("chatbot-icon");
-  
-    chatbotIcon.addEventListener("click", () => {
-      chatbotContainer.classList.remove("hidden");
-      chatbotIcon.style.display = "none";
-      chatBotInput.focus();
-    });
-    clostBtn.addEventListener("click", () => {
-      chatbotContainer.classList.add("hidden");
-      chatbotIcon.style.display = "flex";
-    });
-  
-    sendBtn.addEventListener("click", sendMessage);
-  
-    chatBotInput.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") sendMessage();
-    });
-  });
-  
-  function sendMessage() {
-    const inputEl = document.getElementById("chatbot-input");
-    const userMessage = inputEl.value.trim();
-    if (!userMessage) return;
-    appendMessage("user", userMessage);
-    inputEl.value = ""; // clear input correctly
-    getBotResponse(userMessage);
-  }
-  
-  function appendMessage(sender, message) {
-    const messageContainer = document.getElementById("chatbot-messages");
-    const messageElement = document.createElement("div");
-    messageElement.classList.add("message", sender);
-    messageElement.textContent = message;
-    messageContainer.appendChild(messageElement);
-    messageContainer.scrollTop = messageContainer.scrollHeight;
-  }
-  
-  async function getBotResponse(userMessage) {
-    // *** VLOŽ SEM SVOJ API KĽÚČ (len pre testovanie) ***
-    const API_KEY = "AIzaSyDMb61ofVh-dczFU4sc96PXNoUcrEzp7uU";
-    const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
-  
-    // správny request body podľa dokumentácie: pole "contents" s role + parts
-    const body = {
-      contents: [
-        {
-          role: "user",
-          parts: [
-            { text: userMessage }
-          ]
-        }
-      ]
-    };
-  
-    // show small typing placeholder
-    appendMessage("bot", "… pripravujem odpoveď …");
-  
-    try {
-      const resp = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-goog-api-key": API_KEY
-        },
-        body: JSON.stringify(body)
+    document.addEventListener("DOMContentLoaded", function () {
+      const chatbotContainer = document.getElementById("chatbot-container");
+      const clostBtn = document.getElementById("close-btn");
+      const sendBtn = document.getElementById("send-btn");
+      const chatBotInput = document.getElementById("chatbot-input");
+      const chatbotMessages = document.getElementById("chatbot-messages");
+      const chatbotIcon = document.getElementById("chatbot-icon");
+
+      chatbotIcon.addEventListener("click", () => {
+        chatbotContainer.classList.remove("hidden");
+        chatbotIcon.style.display = "none";
+        chatBotInput.focus();
       });
-  
-      const data = await resp.json();
-  
-      // remove placeholder typing message if present
-      const msgs = document.getElementById("chatbot-messages");
-      const lastMsg = msgs.lastElementChild;
-      if (lastMsg && lastMsg.classList.contains("bot") && lastMsg.textContent.includes("pripravujem odpoveď")) {
-        lastMsg.remove();
-      }
-  
-      let botText = null;
-  
-      // 1) bežný tvar: data.candidates[0].content.parts[0].text
-      try {
-        if (data && Array.isArray(data.candidates) && data.candidates.length) {
-          const cand = data.candidates[0];
-          if (cand && cand.content && Array.isArray(cand.content.parts)) {
-            botText = cand.content.parts.map(p => p.text || "").join("\n");
-          } else if (cand && cand.content && Array.isArray(cand.content)) {
-            botText = cand.content.map(c => (c.parts ? c.parts.map(p => p.text||"").join("") : (c.text||""))).join("\n");
+      clostBtn.addEventListener("click", () => {
+        chatbotContainer.classList.add("hidden");
+        chatbotIcon.style.display = "flex";
+      });
+
+      sendBtn.addEventListener("click", sendMessage);
+
+      chatBotInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") sendMessage();
+      });
+    });
+
+    function sendMessage() {
+      const inputEl = document.getElementById("chatbot-input");
+      const userMessage = inputEl.value.trim();
+      if (!userMessage) return;
+      appendMessage("user", userMessage);
+      inputEl.value = "";
+      getBotResponse(userMessage);
+    }
+
+    function appendMessage(sender, message) {
+      const messageContainer = document.getElementById("chatbot-messages");
+      const messageElement = document.createElement("div");
+      messageElement.classList.add("message", sender);
+      messageElement.textContent = message;
+      messageContainer.appendChild(messageElement);
+      messageContainer.scrollTop = messageContainer.scrollHeight;
+    }
+
+    async function getBotResponse(userMessage) {
+      // *** VLOŽ SEM SVOJ API KĽÚČ (len pre testovanie) ***
+      const API_KEY = "AIzaSyDMb61ofVh-dczFU4sc96PXNoUcrEzp7uU";
+      const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+
+      // správny request body podľa dokumentácie: pole "contents" s role + parts
+      const body = {
+        contents: [
+          {
+            role: "user",
+            parts: [
+              { text: userMessage }
+            ]
           }
+        ]
+      };
+
+      // show small typing placeholder
+      appendMessage("bot", "… pripravujem odpoveď …");
+
+      try {
+        const resp = await fetch(API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-goog-api-key": API_KEY
+          },
+          body: JSON.stringify(body)
+        });
+
+        const data = await resp.json();
+
+        // remove placeholder typing message if present
+        const msgs = document.getElementById("chatbot-messages");
+        const lastMsg = msgs.lastElementChild;
+        if (lastMsg && lastMsg.classList.contains("bot") && lastMsg.textContent.includes("pripravujem odpoveď")) {
+          lastMsg.remove();
         }
-      } catch (e) {
-        // continue to fallbacks
-      }
-  
-      // 2) nový tvar: data.output -> output[].content[] (hľadaj textové položky)
-      if (!botText && data && Array.isArray(data.output)) {
-        for (const outItem of data.output) {
-          if (outItem && Array.isArray(outItem.content)) {
-            for (const c of outItem.content) {
-              if ((c.type === "output_text" || c.type === "text" || c.type === "assistant_message") && c.text) {
-                botText = c.text;
-                break;
-              }
-              if (c.text) { botText = c.text; break; }
-              if (c.parts && Array.isArray(c.parts)) {
-                botText = c.parts.map(p => p.text || "").join("\n");
-                if (botText) break;
-              }
+
+        let botText = null;
+
+        // 1) bežný tvar: data.candidates[0].content.parts[0].text
+        try {
+          if (data && Array.isArray(data.candidates) && data.candidates.length) {
+            const cand = data.candidates[0];
+            if (cand && cand.content && Array.isArray(cand.content.parts)) {
+              botText = cand.content.parts.map(p => p.text || "").join("\n");
+            } else if (cand && cand.content && Array.isArray(cand.content)) {
+              botText = cand.content.map(c => (c.parts ? c.parts.map(p => p.text||"").join("") : (c.text||""))).join("\n");
             }
           }
-          if (botText) break;
+        } catch (e) {
+          // continue to fallbacks
         }
-      }
-  
-      // 3) extra fallback
-      if (!botText && data && data.candidates && data.candidates[0] && data.candidates[0].content && Array.isArray(data.candidates[0].content.parts)) {
-        botText = data.candidates[0].content.parts.map(p => p.text || "").join("\n");
-      }
-  
-      // 4) if still nothing, show limited debug info
-      if (!botText) {
-        const pretty = JSON.stringify(data, null, 2).slice(0, 1000);
-        botText = "API odpoveď neobsahuje text (tvar odpovede sa líši). Údaje: " + pretty;
-      }
-  
-      appendMessage("bot", botText);
-    } catch (error) {
-      console.error("Chyba pri volaní Gemini API:", error);
-      // remove placeholder if present
-      const msgs = document.getElementById("chatbot-messages");
-      const lastMsg = msgs.lastElementChild;
-      if (lastMsg && lastMsg.classList.contains("bot") && lastMsg.textContent.includes("pripravujem odpoveď")) {
-        lastMsg.remove();
-      }
-      appendMessage("bot", "Prepáč, niečo sa pokazilo pri volaní API. Skontroluj konzolu.");
-    }
-  }
-  </script>
 
+        // 2) nový tvar: data.output -> output[].content[] (hľadaj textové položky)
+        if (!botText && data && Array.isArray(data.output)) {
+          for (const outItem of data.output) {
+            if (outItem && Array.isArray(outItem.content)) {
+              for (const c of outItem.content) {
+                if ((c.type === "output_text" || c.type === "text" || c.type === "assistant_message") && c.text) {
+                  botText = c.text;
+                  break;
+                }
+                if (c.text) { botText = c.text; break; }
+                if (c.parts && Array.isArray(c.parts)) {
+                  botText = c.parts.map(p => p.text || "").join("\n");
+                  if (botText) break;
+                }
+              }
+            }
+            if (botText) break;
+          }
+        }
+
+        // 3) extra fallback
+        if (!botText && data && data.candidates && data.candidates[0] && data.candidates[0].content && Array.isArray(data.candidates[0].content.parts)) {
+          botText = data.candidates[0].content.parts.map(p => p.text || "").join("\n");
+        }
+
+        // 4) if still nothing, show limited debug info
+        if (!botText) {
+          const pretty = JSON.stringify(data, null, 2).slice(0, 1000);
+          botText = "API odpoveď neobsahuje text (tvar odpovede sa líši). Údaje: " + pretty;
+        }
+
+        appendMessage("bot", botText);
+      } catch (error) {
+        console.error("Chyba pri volaní Gemini API:", error);
+        const msgs = document.getElementById("chatbot-messages");
+        const lastMsg = msgs.lastElementChild;
+        if (lastMsg && lastMsg.classList.contains("bot") && lastMsg.textContent.includes("pripravujem odpoveď")) {
+          lastMsg.remove();
+        }
+        appendMessage("bot", "Prepáč, niečo sa pokazilo pri volaní API. Skontroluj konzolu.");
+      }
+    }
+  </script>
 </body>
 </html>
