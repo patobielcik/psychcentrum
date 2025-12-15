@@ -176,45 +176,66 @@
       align-items: center;
       flex-wrap: nowrap; /* Dôležité: nedovolí zalamovanie na ďalší riadok */
     }
-    .cta{
-      padding: 12px 18px;
-      border-radius: 12px;
-      text-align: center;
-      font-weight: 900;
-      cursor: pointer;
-      border: none;
-      position: relative;
-      overflow: hidden;
-      min-width: 0;        /* aby flexbox správne počítal šírku */
-      white-space: nowrap; /* text nebude lámať */
-      flex: 0 0 auto;      /* pevná veľkosť podľa obsahu */
-      background: linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+
+    /* -----------------------------
+       CONTACT FORM: nový čistý, full-width štýl
+       ----------------------------- */
+    /* make contact hero single-column for this page so the form can use full width */
+    .hero.contact-hero{grid-template-columns:1fr;max-width:1100px}
+
+    .contact-card{
+      width:100%;max-width:none;padding:26px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.04);box-shadow:var(--shadow);
+    }
+
+    /* layout inside contact card */
+    .contact-grid{display:grid;grid-template-columns:1fr;gap:18px;align-items:start}
+    @media(min-width:900px){
+      .contact-grid{grid-template-columns:1fr 1fr}
+    }
+
+    .contact-info{padding-right:0}
+    .contact-header .headline{font-size:26px;margin-bottom:6px}
+    .contact-desc{color:var(--muted);margin-top:0}
+
+    /* form basics */
+    .form-grid{display:grid;grid-template-columns:1fr;gap:12px}
+    @media(min-width:720px){.form-grid{grid-template-columns:1fr 1fr}}
+
+    .form-row{display:flex;flex-direction:column;gap:6px}
+    .form-row.full{grid-column:1/-1}
+
+    .form-label{font-size:13px;color:var(--muted);font-weight:700}
+    .form-input, .form-textarea, select{
+      width:100%;
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.03);
       color:var(--text);
+      font-size:15px;
+      outline:none;
+      transition:box-shadow .15s, border-color .15s, transform .06s;
     }
-    .cta.primary
-    {background:linear-gradient(90deg,var(--accent),#9fe9ff);color:#042033;box-shadow:0 12px 30px rgba(126,200,255,0.12);}
-    .cta.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
-    .cta:active{transform:translateY(1px)}
-    .cta.biz{
-      background: linear-gradient(90deg,var(--accent),#ffd6b3);
-      color: #042033;
-      box-shadow: 0 12px 30px rgba(6, 102, 153, 0.12);
-      border: none;
-    }
+    .form-input:focus, .form-textarea:focus, select:focus{box-shadow:0 6px 18px rgba(126,200,255,0.08);border-color:rgba(126,200,255,0.45)}
 
-    /* micro-ripple for CTA */
-    .cta{position:relative;overflow:hidden}
-    .ripple{position:absolute;border-radius:50%;transform:scale(0);opacity:0.6;pointer-events:none}
+    .form-textarea{min-height:140px;resize:vertical}
 
-    /* HOW section & steps (kept) */
-    .how{display:flex;flex-direction:column;gap:14px;margin-top:10px}
-    .how-step{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.04);opacity:0;transform:translateY(10px);transition:all .6s cubic-bezier(.2,.9,.2,1)}
-    .how-step.visible{opacity:1;transform:none}
-    .how-step h4{margin:0 0 6px;color:var(--text)}
+    .form-meta{display:flex;align-items:center;gap:12px;justify-content:flex-start}
+    .consent{display:flex;gap:8px;align-items:flex-start}
+    .consent input{margin-top:4px}
 
-    /* footer */
-    footer.site-footer{display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center;margin-top:28px;padding:26px 0;color:var(--muted);font-size:14px}
-    footer .links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+    .submit-row{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+    @media(min-width:540px){.submit-row{flex-direction:row;justify-content:flex-start}}
+
+    .btn-submit{background:linear-gradient(90deg,var(--accent),#9fe9ff);color:#042033;padding:12px 18px;border-radius:12px;border:none;font-weight:900;cursor:pointer;box-shadow:0 10px 30px rgba(126,200,255,0.12);width:100%}
+    .btn-secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);padding:12px;border-radius:12px;cursor:pointer;width:100%}
+    @media(min-width:540px){.submit-row .btn-submit{width:auto;min-width:210px}.submit-row .btn-secondary{width:auto}}
+
+    #form-message .msg{padding:10px 12px;border-radius:10px;margin-top:12px}
+    .msg.success{background:linear-gradient(90deg, rgba(126,200,255,0.12), rgba(255,214,179,0.05));color:var(--text)}
+    .msg.error{background:rgba(255,30,30,0.07);color:#ffd6d6}
+
+    .form-note{font-size:13px;color:var(--muted);margin-top:12px}
 
     /* small screens */
     @media (max-width:980px){
@@ -225,7 +246,7 @@
     }
 
     /* accessibility focus */
-    a:focus,button:focus{outline:3px solid rgba(126,200,255,0.18);outline-offset:3px}
+    a:focus,button:focus,input:focus,select:focus,textarea:focus{outline:3px solid rgba(126,200,255,0.18);outline-offset:3px}
 
     /* reduced motion respect: stop all fancy animation toggles when requested */
     @media (prefers-reduced-motion: reduce){
@@ -248,10 +269,7 @@
     <div class="container">
       <header>
         <a class="brand" href="index.html">
-          <div class="logo-mark" aria-hidden="true">
-            <!-- Namiesto externého súboru logo.jpg používame farebný štvorček, aby sme zachovali požiadavku: iba jeden externý obrazok (image2.jpg). -->
-            PC
-          </div>
+          <div class="logo-mark" aria-hidden="true">PC</div>
           <div class="brand-text">
             <h1>PsychCentrum</h1>
             <p>Podpora pre jednotlivcov a organizácie</p>
@@ -273,13 +291,20 @@
 
       <main>
         <!-- HERO: teraz obsahuje upratanú kontaktnú kartu (nadpis + formulár pod ním) -->
-        <section class="hero" aria-labelledby="hero-title">
+        <section class="hero contact-hero" aria-labelledby="hero-title">
           <div class="card contact-card" role="region" aria-labelledby="contact-card-title">
             <div class="contact-grid">
               <div class="contact-info">
                 <div class="contact-header">
                   <h1 id="contact-card-title" class="headline">Kontaktujte PsychCentrum</h1>
                   <p class="contact-desc">Napíšte nám stručne váš problém alebo požiadavku a my sa ozveme do 1–2 pracovných dní. Poskytujeme krízovú podporu, individuálne terapie a programy pre organizácie.</p>
+                </div>
+
+                <div class="how" aria-hidden="true" style="margin-top:12px">
+                  <div class="how-step visible">
+                    <h4>Rýchlo a diskrétne</h4>
+                    <p style="margin:0;color:var(--muted)">Snažíme sa odpovedať čo najskôr; v urgentných prípadoch volajte priamo.</p>
+                  </div>
                 </div>
               </div>
 
@@ -316,12 +341,12 @@
                         <option value="ostatne">Iné / konzultácia</option>
                       </select>
                     </div>
-                  </div>
 
-                  <!-- správa na celú šírku -->
-                  <div class="form-row full">
-                    <label class="form-label" for="message">Správa</label>
-                    <textarea id="message" name="message" class="form-textarea" placeholder="Popíšte vašu situáciu alebo otázku" required></textarea>
+                    <!-- správa na celú šírku -->
+                    <div class="form-row full">
+                      <label class="form-label" for="message">Správa</label>
+                      <textarea id="message" name="message" class="form-textarea" placeholder="Popíšte vašu situáciu alebo otázku" required></textarea>
+                    </div>
                   </div>
 
                   <div class="form-meta">
@@ -594,319 +619,6 @@
         }
       });
     })();
-  </script>
-
-  <!-- ===========================
-       AI CHATBOT (pridané presne ako požaduješ)
-       Nezasahoval som, nič som nemenil — iba som pridal chatbot.
-       =========================== -->
-
-  <style>
-  :root{
-    --chat-blue: #80dfff;
-    --chat-blue-600: #4fcff0;
-    --chat-white: #ffffff;
-  }
-  /* Floating Chat Icon */
-  #chatbot-icon {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 60px;
-    height: 60px;
-    background-color: var(--chat-blue);
-    color: var(--chat-white);
-    font-size: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    box-shadow: 0 0 15px rgba(128, 223, 255, 0.35);
-    cursor: pointer;
-    transition: transform 0.2s, background-color 0.2s, color 0.2s;
-    z-index: 99999;
-  }
-
-  #chatbot-icon:hover {
-    background-color: var(--chat-white);
-    color: var(--chat-blue);
-    transform: scale(1.08);
-  }
-
-  /* Chatbot Container */
-  #chatbot-container {
-    position: fixed;
-    bottom: 80px;
-    right: 20px;
-    width: 350px;
-    height: 450px;
-    background-color: var(--chat-white);
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(128, 223, 255, 0.22);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    z-index: 99999;
-  }
-
-  /* Hide Chatbot Initially */
-  .hidden {
-    display: none !important;
-  }
-
-  /* Chatbot Header */
-  #chatbot-header {
-    background-color: var(--chat-blue);
-    color: var(--chat-white);
-    padding: 15px;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 18px;
-  }
-
-  #close-btn {
-    background: none;
-    border: none;
-    color: var(--chat-white);
-    font-size: 20px;
-    cursor: pointer;
-  }
-
-  /* Chatbot Body */
-  #chatbot-body {
-    flex: 1;
-    padding: 10px;
-    overflow-y: auto;
-    background-color: var(--chat-white);
-  }
-
-  /* Chatbot Messages */
-  #chatbot-messages {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .message {
-    margin-bottom: 15px;
-    padding: 12px;
-    border-radius: 8px;
-    max-width: 85%;
-    box-shadow: none;
-  }
-
-  /* User message */
-  .message.user {
-    background-color: var(--chat-blue);
-    color: var(--chat-white);
-    align-self: flex-end;
-  }
-
-  /* Bot message */
-  .message.bot {
-    background-color: var(--chat-white);
-    color: var(--chat-blue);
-    align-self: flex-start;
-    border: 1px solid rgba(128, 223, 255, 0.45);
-  }
-
-  /* Input Section */
-  #chatbot-input-container {
-    display: flex;
-    padding: 10px;
-    border-top: 1px solid rgba(128, 223, 255, 0.25);
-    background-color: var(--chat-white);
-  }
-
-  #chatbot-input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid rgba(128, 223, 255, 0.5);
-    border-radius: 10px;
-    background-color: var(--chat-white);
-    color: var(--chat-blue);
-    outline: none;
-  }
-
-  #chatbot-input::placeholder {
-    color: rgba(128,223,255,0.7);
-  }
-
-  #send-btn {
-    margin-left: 10px;
-    padding: 10px 15px;
-    background-color: var(--chat-blue);
-    color: var(--chat-white);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-
-  #send-btn:hover {
-    background-color: var(--chat-blue-600);
-  }
-  </style>
-
-  <!-- Chatbot HTML -->
-  <div id="chatbot-icon" title="Otvor chat">💭</div>
-
-  <div id="chatbot-container" class="hidden" role="dialog" aria-label="AI chatbot">
-    <div id="chatbot-header">
-      <div>AI Pomocník</div>
-      <button id="close-btn" aria-label="Zatvoriť">✕</button>
-    </div>
-    <div id="chatbot-body">
-      <div id="chatbot-messages" aria-live="polite" aria-atomic="false"></div>
-    </div>
-    <div id="chatbot-input-container">
-      <input id="chatbot-input" type="text" placeholder="Napíšte správu..." aria-label="Zadajte správu" />
-      <button id="send-btn" aria-label="Odoslať správu">Odoslať</button>
-    </div>
-  </div>
-
-  <!-- Chatbot JS (opravena komunikácia s Gemini) -->
-  <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const chatbotContainer = document.getElementById("chatbot-container");
-    const clostBtn = document.getElementById("close-btn");
-    const sendBtn = document.getElementById("send-btn");
-    const chatBotInput = document.getElementById("chatbot-input");
-    const chatbotMessages = document.getElementById("chatbot-messages");
-    const chatbotIcon = document.getElementById("chatbot-icon");
-  
-    chatbotIcon.addEventListener("click", () => {
-      chatbotContainer.classList.remove("hidden");
-      chatbotIcon.style.display = "none";
-      chatBotInput.focus();
-    });
-    clostBtn.addEventListener("click", () => {
-      chatbotContainer.classList.add("hidden");
-      chatbotIcon.style.display = "flex";
-    });
-  
-    sendBtn.addEventListener("click", sendMessage);
-  
-    chatBotInput.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") sendMessage();
-    });
-  });
-  
-  function sendMessage() {
-    const inputEl = document.getElementById("chatbot-input");
-    const userMessage = inputEl.value.trim();
-    if (!userMessage) return;
-    appendMessage("user", userMessage);
-    inputEl.value = ""; // clear input
-    getBotResponse(userMessage);
-  }
-  
-  function appendMessage(sender, message) {
-    const messageContainer = document.getElementById("chatbot-messages");
-    const messageElement = document.createElement("div");
-    messageElement.classList.add("message", sender);
-    messageElement.textContent = message;
-    messageContainer.appendChild(messageElement);
-    messageContainer.scrollTop = messageContainer.scrollHeight;
-  }
-  
-  async function getBotResponse(userMessage) {
-    // *** TU MÔŽEŠ VLOŽIŤ SVOJ API KĽÚČ (len na testovanie) ***
-    const API_KEY = "AIzaSyDd4yZKSZFpXYmuuKRx7lnopaILiwCQHV8";
-    const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
-
-    // správny request body: pole contents s role + parts
-    const body = {
-      contents: [
-        {
-          role: "user",
-          parts: [
-            { text: userMessage }
-          ]
-        }
-      ]
-    };
-
-    appendMessage("bot", "… píšem odpoveď (čakaj chvíľu) …");
-
-    try {
-      const resp = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-goog-api-key": API_KEY
-        },
-        body: JSON.stringify(body)
-      });
-
-      const data = await resp.json();
-
-      // odstráni predchádzajúcu "typing" správu, ak existuje
-      const msgs = document.getElementById("chatbot-messages");
-      const lastMsg = msgs.lastElementChild;
-      if (lastMsg && lastMsg.classList.contains("bot") && lastMsg.textContent.includes("píšem odpoveď")) {
-        lastMsg.remove();
-      }
-
-      let botText = null;
-
-      // 1) bežný tvar: data.candidates[0].content.parts[0].text
-      try {
-        if (data && Array.isArray(data.candidates) && data.candidates.length) {
-          const cand = data.candidates[0];
-          if (cand && cand.content && Array.isArray(cand.content.parts)) {
-            botText = cand.content.parts.map(p => p.text || "").join("\n");
-          } else if (cand && cand.content && Array.isArray(cand.content)) {
-            botText = cand.content.map(c => (c.parts ? c.parts.map(p => p.text||"").join("") : (c.text||""))).join("\n");
-          }
-        }
-      } catch (e) {
-        // pokračovať do ďalších fallbackov
-      }
-
-      // 2) nový tvar: data.output -> output[].content[] (hľadaj textové položky)
-      if (!botText && data && Array.isArray(data.output)) {
-        for (const outItem of data.output) {
-          if (outItem && Array.isArray(outItem.content)) {
-            for (const c of outItem.content) {
-              if ((c.type === "output_text" || c.type === "text" || c.type === "assistant_message") && c.text) {
-                botText = c.text;
-                break;
-              }
-              if (c.text) { botText = c.text; break; }
-              if (c.parts && Array.isArray(c.parts)) {
-                botText = c.parts.map(p => p.text || "").join("\n");
-                if (botText) break;
-              }
-            }
-          }
-          if (botText) break;
-        }
-      }
-
-      // 3) ďalšie fallbacky
-      if (!botText && data && data.candidates && data.candidates[0] && data.candidates[0].content && Array.isArray(data.candidates[0].content.parts)) {
-        botText = data.candidates[0].content.parts.map(p => p.text || "").join("\n");
-      }
-
-      if (!botText) {
-        const pretty = JSON.stringify(data, null, 2).slice(0, 1000);
-        botText = "API odpoveď neobsahuje text (tvar odpovede sa líši). Údaje: " + pretty;
-      }
-
-      appendMessage("bot", botText);
-    } catch (error) {
-      console.error("Chyba pri volaní Gemini API:", error);
-      const msgs = document.getElementById("chatbot-messages");
-      const lastMsg = msgs.lastElementChild;
-      if (lastMsg && lastMsg.classList.contains("bot") && lastMsg.textContent.includes("píšem odpoveď")) {
-        lastMsg.remove();
-      }
-      appendMessage("bot", "Prepáč, niečo sa pokazilo pri volaní API. Skontroluj konzolu (F12).");
-    }
-  }
   </script>
 
 </body>
