@@ -4,51 +4,68 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Titulná stránka · PsychCentrum</title>
-  <meta name="description" content="PsychCentrum — bezplatné hodnotenie psychického stavu, krízová podpora a odborné poradenstvo pre jednotlivcov a organizácie." />
+  <meta name="description" content="PsychCentrum — zadarmo získajte hodnotenie psychického stavu, krízovú podporu a návrhy na ďalšiu pomoc pre jednotlivcov aj organizácie." />
   <style>
     :root{
-      --bg:#ffffff;
-      --card-bg: #ffffff;
-      --glass: rgba(255,255,255,0.8);
-      --accent:#6fb3ff;
-      --accent-2:#10b981;
-      --text:#0b1220;
-      --muted:rgba(11,18,32,0.6);
+      /* Farebná paleta jemne prispôsobená priloženému obrázku (image2.jpg) */
+      --bg-overlay: rgba(4,7,12,0.44);
+      --card-bg: rgba(255,255,255,0.06);
+      --glass: rgba(255,255,255,0.06);
+      --accent:#7ec8ff;
+      --accent-2:#ffd6b3;
+      --text:#ffffff;
+      --muted:rgba(255,255,255,0.85);
       --radius:16px;
       --page-max:1200px;
       --cta-width:320px;
-      --shadow: 0 10px 30px rgba(12,18,28,0.08);
+      --shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      /* zmena písma podľa požiadavky */
+      /* písmo pôvodné z pôvodného súboru: serif v pôvodnom — ale zvolíme čitateľné telo */
       font-family: Georgia, "Times New Roman", serif;
-      background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden;
+      color:var(--text);
       -webkit-font-smoothing:antialiased;
+      line-height:1.5;
+      overflow-x:hidden;
       position:relative;
+      /* Tu používame JEDINÝ obrázok: image2.jpg ako pozadie celej stránky */
+      background-image: url('image2.jpg');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
     }
 
+    /* tmavý overlay pre čitateľnosť textu */
     body::before{
       content:"";
-      position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.35;
-      background-image:
-        linear-gradient(135deg, rgba(10,18,30,0.02) 1px, transparent 1px);
-      background-size:14px 14px;
-      mix-blend-mode:multiply;
+      position:fixed;inset:0;z-index:0;pointer-events:none;
+      background: linear-gradient(180deg, rgba(6,10,18,0.42) 0%, rgba(6,10,18,0.28) 40%, rgba(0,0,0,0.18) 100%);
     }
 
+    /* subtle diagonal paper pattern (very light) - zachované pre textúru */
+    body::after{
+      content:"";
+      position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.18;
+      background-image:
+        linear-gradient(135deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size:14px 14px;
+      mix-blend-mode:overlay;
+    }
+
+    /* BACKDROPS: ponechávame bloby a sparkles z pôvodnej logiky (ale ich farby sú prispôsobené pozadiu) */
     .bg-wrap{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
     .blob{
-      position:absolute;width:540px;height:540px;border-radius:50%;filter:blur(70px);opacity:0.45;transform:translate3d(0,0,0);
+      position:absolute;width:540px;height:540px;border-radius:50%;filter:blur(70px);opacity:0.28;transform:translate3d(0,0,0);
       will-change:transform,opacity;
-      mix-blend-mode:multiply;
+      mix-blend-mode:screen;
     }
-    .blob.a{left:-12%;top:-8%;background:radial-gradient(circle at 30% 30%,rgba(94, 169, 255, 0.95),rgba(111,179,255,0.25) 40%,transparent 60%);animation:moveA 14s ease-in-out infinite;}
-    .blob.b{right:-12%;top:6%;background:radial-gradient(circle at 60% 40%,rgba(111, 21, 111, 0.9),rgba(96, 12, 129, 0.425) 30%,transparent 60%);animation:moveB 18s ease-in-out infinite;}
-    .blob.c{left:30%;bottom:-18%;width:700px;height:700px;background:conic-gradient(from 180deg at 50% 50%,rgba(111,179,255,0.06),rgba(16,185,129,0.04));filter:blur(120px);opacity:0.18;animation:slowSpin 36s linear infinite}
+    .blob.a{left:-12%;top:-8%;background:radial-gradient(circle at 30% 30%,rgba(126,200,255,0.85),rgba(126,200,255,0.25) 40%,transparent 60%);animation:moveA 14s ease-in-out infinite;}
+    .blob.b{right:-12%;top:6%;background:radial-gradient(circle at 60% 40%,rgba(255,210,160,0.85),rgba(255,180,120,0.3) 30%,transparent 60%);animation:moveB 18s ease-in-out infinite;}
+    .blob.c{left:30%;bottom:-18%;width:700px;height:700px;background:conic-gradient(from 180deg at 50% 50%,rgba(126,200,255,0.06),rgba(255,214,179,0.04));filter:blur(120px);opacity:0.12;animation:slowSpin 36s linear infinite}
 
     @keyframes moveA{0%{transform:translateY(0) translateX(0) scale(1)}50%{transform:translateY(36px) translateX(22px) scale(1.04)}100%{transform:translateY(0) translateX(0) scale(1)}}
     @keyframes moveB{0%{transform:translateY(0) translateX(0) scale(1)}50%{transform:translateY(-26px) translateX(-40px) scale(1.03)}100%{transform:translateY(0) translateX(0) scale(1)}}
@@ -62,7 +79,7 @@
       animation:rise var(--duration, 10s) linear infinite;
       will-change:transform,opacity;
       mix-blend-mode:screen;
-      filter:drop-shadow(0 2px 6px rgba(111,179,255,0.08));
+      filter:drop-shadow(0 2px 6px rgba(126,200,255,0.08));
     }
     @keyframes rise{
       0%{transform:translateY(20vh) scale(0.6); opacity:0}
@@ -71,11 +88,18 @@
       100%{transform:translateY(-40vh) scale(1.1); opacity:0}
     }
 
+    /* page shell */
     .site{position:relative;min-height:100vh;z-index:1;display:flex;flex-direction:column;align-items:center}
     .container{width:100%;max-width:var(--page-max);padding:48px 28px;display:flex;flex-direction:column;gap:22px;z-index:2}
 
+    /* header */
     header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:10px 0}
     .brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit}
+    .logo-mark{
+      width:56px;height:56px;border-radius:12px;display:block;align-items:center;justify-content:center;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 6px 18px rgba(0,0,0,0.25);flex:0 0 56px;
+      display:flex;color:#042033;font-weight:800;font-size:18px;
+    }
     .brand-text h1{font-size:18px;margin:0;color:var(--text)}
     .brand-text p{margin:0;font-size:13px;color:var(--muted)}
 
@@ -85,31 +109,35 @@
       content:"";position:absolute;left:12px;right:12px;bottom:6px;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--accent-2));transform-origin:left center;transform:scaleX(0);transition:transform .28s cubic-bezier(.2,.9,.2,1),opacity .28s;opacity:0.9;
     }
     .nav-link:hover::after{transform:scaleX(1);opacity:1}
-    .nav-link:hover{color:var(--text);background:rgba(10,18,28,0.02)}
+    .nav-link:hover{color:var(--text);background:rgba(255,255,255,0.03)}
 
     .actions{display:flex;gap:12px}
     .btn{padding:10px 16px;border-radius:999px;text-decoration:none;font-weight:800;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;border:none}
-    .btn.primary{background:linear-gradient(90deg,var(--accent),#73c2ff);color:#042033;box-shadow:0 10px 30px rgba(111,179,255,0.12);}
-    .btn.ghost{background:transparent;border:1px solid rgba(10,18,28,0.06);color:var(--muted)}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),#9fe9ff);color:#042033;box-shadow:0 10px 30px rgba(126,200,255,0.12);}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
 
+    /* HERO card: light glass style */
     main{display:flex;flex-direction:column;align-items:center;gap:20px;margin-top:6px}
     .hero{
       width:100%;max-width:1100px;display:grid;grid-template-columns:1fr 420px;gap:28px;padding:36px;border-radius:20px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.95));
-      box-shadow:var(--shadow);border:1px solid rgba(10,18,28,0.04);position:relative;overflow:visible;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      box-shadow:var(--shadow);border:1px solid rgba(255,255,255,0.04);position:relative;overflow:visible;
       transition:box-shadow .25s;
+      backdrop-filter: blur(6px);
     }
-    .hero:hover{box-shadow:0 18px 60px rgba(12,18,28,0.08)}
+    .hero:hover{box-shadow:0 18px 60px rgba(0,0,0,0.5)}
 
     .hero-left{padding-right:6px}
-    .kicker{display:inline-block;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg, rgba(111,179,255,0.12), rgba(16,185,129,0.06));color:var(--accent);font-weight:800;font-size:12px;letter-spacing:0.08em}
+    .kicker{display:inline-block;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg, rgba(126,200,255,0.12), rgba(255,214,179,0.06));color:var(--accent);font-weight:800;font-size:12px;letter-spacing:0.08em}
+    /* animated gradient text for headline */
     h1.headline{
       margin:12px 0 8px;font-size:34px;line-height:1.06;font-weight:800;
-      background:linear-gradient(90deg,var(--accent),#79d3ff,#b892ff,var(--accent-2));
+      background:linear-gradient(90deg,var(--accent),#9fe9ff,#ffd6b3,var(--accent-2));
       background-size:200% 100%;
       -webkit-background-clip:text;background-clip:text;color:transparent;
       animation:headlineShift 8s linear infinite;
       -webkit-text-fill-color:transparent;
+      text-shadow: 0 14px 40px rgba(0,0,0,0.45);
     }
     @keyframes headlineShift{
       0%{background-position:0% 50%}
@@ -119,123 +147,128 @@
 
     p.lead{margin:0;color:var(--muted);font-size:15px;max-width:64ch}
 
+    /* right column: interactive card */
     .hero-right{align-self:center;perspective:1200px}
     .card{
-      width:100%;max-width:380px;padding:22px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.98));border:1px solid rgba(10,18,28,0.06);
-      box-shadow:0 8px 28px rgba(10,18,28,0.06);transform:translateY(0) translateZ(0);transition:transform .22s cubic-bezier(.2,.9,.2,1),box-shadow .2s;
+      width:100%;max-width:380px;padding:22px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.04);
+      box-shadow:0 8px 28px rgba(0,0,0,0.25);transform:translateY(0) translateZ(0);transition:transform .22s cubic-bezier(.2,.9,.2,1),box-shadow .2s;
       will-change:transform;
       transform-style:preserve-3d;
     }
-    .card:hover{box-shadow:0 18px 50px rgba(10,18,28,0.08)}
+    .card:hover{box-shadow:0 18px 50px rgba(0,0,0,0.45)}
     .card h3{margin:0 0 8px}
     .stat{display:flex;align-items:center;gap:12px}
     .stat .num{font-size:22px;font-weight:800;
-      background:linear-gradient(90deg,var(--accent),#79d3ff);-webkit-background-clip:text;background-clip:text;color:transparent;
+      background:linear-gradient(90deg,var(--accent),#9fe9ff);-webkit-background-clip:text;background-clip:text;color:transparent;
       -webkit-text-fill-color:transparent;
     }
     .stat p{margin:0;color:var(--muted);font-size:13px}
 
-    .cta-row{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
-    .cta{width:var(--cta-width);padding:14px 18px;border-radius:12px;text-align:center;font-weight:800;cursor:pointer;border:none;position:relative;overflow:hidden}
-    .cta.primary{background:linear-gradient(90deg,var(--accent),#73c2ff);color:#042033;box-shadow:0 12px 30px rgba(111,179,255,0.12);}
-    .cta.ghost{background:transparent;border:1px solid rgba(10,18,28,0.06);color:var(--muted)}
-    .cta:active{transform:translateY(1px)}
+    /* Important: removed image gallery from original and use only image2.jpg as background.
+       We keep the structure but do not reference other images. */
 
+    /* CTA cluster inside hero-left */
+    .cta-row{
+      display: flex;
+      gap: 12px;
+      margin-top: 18px;
+      justify-content: flex-start;
+      align-items: center;
+      flex-wrap: nowrap; /* Dôležité: nedovolí zalamovanie na ďalší riadok */
+    }
+    .cta{
+      padding: 12px 18px;
+      border-radius: 12px;
+      text-align: center;
+      font-weight: 900;
+      cursor: pointer;
+      border: none;
+      position: relative;
+      overflow: hidden;
+      min-width: 0;        /* aby flexbox správne počítal šírku */
+      white-space: nowrap; /* text nebude lámať */
+      flex: 0 0 auto;      /* pevná veľkosť podľa obsahu */
+      background: linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      color:var(--text);
+    }
+    .cta.primary
+    {background:linear-gradient(90deg,var(--accent),#9fe9ff);color:#042033;box-shadow:0 12px 30px rgba(126,200,255,0.12);}
+    .cta.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    .cta:active{transform:translateY(1px)}
+    .cta.biz{
+      background: linear-gradient(90deg,var(--accent),#ffd6b3);
+      color: #042033;
+      box-shadow: 0 12px 30px rgba(6, 102, 153, 0.12);
+      border: none;
+    }
+
+    /* micro-ripple for CTA */
     .cta{position:relative;overflow:hidden}
     .ripple{position:absolute;border-radius:50%;transform:scale(0);opacity:0.6;pointer-events:none}
 
+    /* HOW section & steps (kept) */
     .how{display:flex;flex-direction:column;gap:14px;margin-top:10px}
-    .how-step{background:linear-gradient(180deg, rgba(250,250,250,0.9), transparent);border-radius:12px;padding:14px;border:1px solid rgba(10,18,28,0.04);opacity:0;transform:translateY(10px);transition:all .6s cubic-bezier(.2,.9,.2,1)}
+    .how-step{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.04);opacity:0;transform:translateY(10px);transition:all .6s cubic-bezier(.2,.9,.2,1)}
     .how-step.visible{opacity:1;transform:none}
     .how-step h4{margin:0 0 6px;color:var(--text)}
 
-    /* inline images for psych centre (added to place image1.jpg, image2.jpg, image4.jpg neatly) */
-    .inline-images { display:flex; gap:12px; justify-content:center; margin:14px 0; flex-wrap:wrap; }
-    .inline-images img { width:160px; height:104px; object-fit:cover; border-radius:10px; border:1px solid rgba(10,18,28,0.04); box-shadow:0 6px 18px rgba(10,18,28,0.04); }
-
-    /* ABOUT section styles */
-    .about{
-      width:100%;max-width:1100px;background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.99));border-radius:16px;padding:28px;box-shadow:0 8px 28px rgba(10,18,28,0.04);border:1px solid rgba(10,18,28,0.04);display:grid;grid-template-columns:1fr 420px;gap:24px;
-    }
-    .about h2{margin:0 0 10px;font-size:22px}
-    .about p{margin:0 0 12px;color:var(--muted)}
-    /* UPDATED: make services uniform cards (grid with consistent card styles) */
-    .about .services{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:12px;
-      margin-top:8px;
-    }
-    .service-item{
-      padding:16px;
-      border-radius:10px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,250,250,0.98));
-      border:1px solid rgba(10,18,28,0.06);
-      box-shadow:0 6px 20px rgba(10,18,28,0.04);
-      min-height:84px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-    }
-    .logo-mark {
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-    .about-cta{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
-
+    /* footer */
     footer.site-footer{display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center;margin-top:28px;padding:26px 0;color:var(--muted);font-size:14px}
     footer .links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
 
+    /* small screens */
     @media (max-width:980px){
       .hero{grid-template-columns:1fr;padding:22px}
       .hero-right{order:-1}
       h1.headline{font-size:24px}
       .cta{width:100%}
-      .about{grid-template-columns:1fr; padding:20px}
     }
 
-    a:focus,button:focus{outline:3px solid rgba(111,179,255,0.18);outline-offset:3px}
+    /* accessibility focus */
+    a:focus,button:focus{outline:3px solid rgba(126,200,255,0.18);outline-offset:3px}
 
+    /* reduced motion respect: stop all fancy animation toggles when requested */
     @media (prefers-reduced-motion: reduce){
       .blob, .card, h1.headline, .nav-link::after, .sparkle { animation: none !important; transition: none !important; }
     }
   </style>
 </head>
 <body>
+  <!-- BACKDROP blobs (ponechané podľa pôvodnej logiky, len farebne prispôsobené pozadiu) -->
   <div class="bg-wrap" aria-hidden="true">
     <div class="blob a" aria-hidden="true"></div>
     <div class="blob b" aria-hidden="true"></div>
     <div class="blob c" aria-hidden="true"></div>
   </div>
 
+  <!-- sparkles container -->
   <div class="sparkles" aria-hidden="true"></div>
 
   <div class="site">
     <div class="container">
       <header>
         <a class="brand" href="index.html">
-            <div class="logo-mark">
-                <img src="logo.jpg" alt="PsychCentrum logo" 
-                     style="width:56px;height:56px;border-radius:12px;object-fit:cover;display:block;">
-              </div>
-              
+          <div class="logo-mark" aria-hidden="true">
+            <!-- Namiesto externého súboru logo.jpg používame farebný štvorček, aby sme zachovali požiadavku: iba jeden externý obrazok (image2.jpg). -->
+            PC
+          </div>
           <div class="brand-text">
             <h1>PsychCentrum</h1>
             <p>Podpora pre jednotlivcov a organizácie</p>
           </div>
         </a>
 
-        <nav class="primary" aria-label="Hlavná navigácia">
-            <a class="nav-link" href="onas.html">O nás</a>
-            <a class="nav-link" href="contact.html">Kontakt</a>
-            <a class="nav-link" href="faq.html">Najčastejšie otázky</a>
-            <a class="nav-link" href="blog.html">Blog</a>
-          </nav>
-  
-          </div>
+        <nav class="primary" aria-label="Hlavná navigácia psychologického centra">
+          <a class="nav-link" href="onas.html">O nás</a>
+          <a class="nav-link" href="contact.html">Kontakt</a>
+          <a class="nav-link" href="faq.html">Najčastejšie otázky</a>
+          <a class="nav-link" href="blog.html">Blog</a>
+        </nav>
+
+        <div class="actions" aria-hidden="true">
+          <a class="btn ghost" href="login.html">Prihlásenie</a>
+          <a class="btn primary" href="signup.html">Registrovať</a>
+        </div>
       </header>
 
       <main>
@@ -669,7 +702,7 @@
   
   async function getBotResponse(userMessage) {
     // *** VLOŽ SEM SVOJ API KĽÚČ (len pre testovanie) ***
-    const API_KEY = "";
+    const API_KEY = "AIzaSyDd4yZKSZFpXYmuuKRx7lnopaILiwCQHV8";
     const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
   
     // správny request body podľa dokumentácie: pole "contents" s role + parts
